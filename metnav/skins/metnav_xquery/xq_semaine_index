@@ -1,0 +1,5 @@
+%(HEADER)s
+for $res in collection("%(COLLECTION)s")/lom:lom%(OBJECT_TYPE)s%(LIMITS)s%(CONDITION_BASE)s%(CONDITION_SUP)s
+order by $res/lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur'][1]/lom:date/lom:dateTime descending empty least
+return
+%(TAIL)s

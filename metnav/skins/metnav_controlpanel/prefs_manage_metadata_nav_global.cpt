@@ -1,0 +1,658 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="metnav">
+
+<metal:block metal:fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main"
+     tal:define="errors python:request.get('errors', {});
+                 metnav_properties here/portal_properties/metnav_properties">
+
+    <h1 i18n:translate="legend_prefs_metadata_nav">Configuration de MetNav</h1>
+
+    <a href=""
+       class="link-parent"
+       tal:attributes="href string:${portal_url}/plone_control_panel"
+       i18n:translate="label_up_to_plone_setup"
+       i18n:domain="plone">
+    Up to Site Setup
+    </a>
+
+    <form action=""
+          name=""
+          method="post"
+          tal:attributes="action string:${portal_url}/${template/id}">
+
+        <fieldset>
+
+            <legend i18n:translate="legend_prefs_metadata_nav">Configuration de MetNav</legend>
+
+            <p i18n:translate="description_prefs_metadata_nav">
+                Vous permet de configurer les propri&eacute;t&eacute;s de navigation sur les m&eacute;tadonn&eacute;es XML du site.
+            </p>
+
+            <fieldset>
+                <legend i18n:translate="legend_metnav_general">Configuration g&eacute;n&eacute;rale</legend>
+
+                <p i18n:translate="description_metnav_general">
+                    Vous pouvez configurer dans cette partie les &eacute;l&eacute;ments g&eacute;n&eacute;raux de MetNav
+                </p>
+
+                <div class="field"
+                     tal:define="EXIST_DA request/EXIST_DA | metnav_properties/EXIST_DA;
+                             error errors/EXIST_DA | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_exist_da" for="exist_da">Identifiant du connecteur eXistDA &agrave; utiliser</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_exist_da">
+                        Identifiant du connecteur eXistDA &agrave; utiliser pour toutes les connexions &agrave; la base. Le connecteur doit se trouver dans portal_skins/custom ou &agrave; la racine du site Plone.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="EXIST_DA"
+                           id="exist_da"
+                           value=""
+                           tal:attributes="value EXIST_DA" />
+                </div>
+
+                <div class="field"
+                     tal:define="BATCH_LENGTH request/BATCH_LENGTH | metnav_properties/BATCH_LENGTH;
+                             error errors/BATCH_LENGTH | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_batch_length" for="batch_length">Nombre d'&eacute;l&eacute;ments par page</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_batch_length">
+                        Nombre d'&eacute;l&eacute;ments affich&eacute;s par page lors des recherches (dans les nouvelles, archives, etc.).
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="3"
+                           name="BATCH_LENGTH"
+                           id="batch_length"
+                           value=""
+                           tal:attributes="value BATCH_LENGTH" />
+                </div>
+
+                <div class="field"
+                     tal:define="LIMIT_RELATED request/LIMIT_RELATED | metnav_properties/LIMIT_RELATED;
+                             error errors/LIMIT_RELATED | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_limit_related" for="limit_related">Nombre maximums de documents connexes</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_limit_related">
+                        Nombre maximum de documents connexes affich&eacute;s dans le portlet "Voir aussi".
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="3"
+                           name="LIMIT_RELATED"
+                           id="limit_related"
+                           value=""
+                           tal:attributes="value LIMIT_RELATED" />
+                </div>
+
+                <div class="field"
+                     tal:define="SCORE_CONNEXE request/SCORE_CONNEXE | metnav_properties/SCORE_CONNEXE;
+                             error errors/SCORE_CONNEXE | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_score_connexe" for="score_connexe">Score minimum de documents connexes</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_score_connexe">
+                        Score minimum des documents connexes affich&eacute;s dans le portlet "Voir aussi".
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="3"
+                           name="SCORE_CONNEXE"
+                           id="score_connexe"
+                           value=""
+                           tal:attributes="value SCORE_CONNEXE" />
+                </div>
+                <div class="field"
+                     tal:define="OBJECTS request/OBJECTS | python:'\n'.join(metnav_properties.OBJECTS);
+                             error errors/OBJECTS | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_objects" for="objects">Objets pédagogiques</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_objects">
+                        Correspondance des objets et de leurs noms affich&eacute;s. De la forme nom affich&eacute;=nom dans le lom.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea rows="10"
+                           name="OBJECTS"
+                           id="objects"
+                           tal:content="OBJECTS">
+                    </textarea>
+                </div>
+
+               <div class="field"
+                     tal:define="MEDIAS request/MEDIAS=S | python:'\n'.join(metnav_properties.MEDIAS);
+                             error errors/MEDIAS | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_medias" for="medias">Objets médias</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_medias">
+                        Correspondance des objets médias et de leurs noms affich&eacute;s. De la forme nom affich&eacute;=nom dans le lom.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea rows="10"
+                           name="MEDIAS"
+                           id="medias"
+                           tal:content="MEDIAS">
+                    </textarea>
+                </div>
+
+            </fieldset>
+
+            <fieldset>
+                <legend i18n:translate="legend_metadata">M&eacute;tadonn&eacute;es</legend>
+
+                <p i18n:translate="description_metadata">
+                    Vous pouvez configurer dans cette partie tout ce qui concerne les m&eacute;tadonn&eacute;es utilis&eacute;es pour indexer vos contenus.
+                </p>
+
+                <div class="field"
+                     tal:define="COLLECTIONS request/COLLECTIONS | python:'\n'.join(metnav_properties.getProperty('COLLECTIONS', []));
+                             error errors/COLLECTIONS | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_collections" for="COLLECTIONS">Configuration des classifications et chemins</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_collections">
+                        Indiquez la configuration dans cet ordre : chemin portail|nom de classification|url de classification|collection des m&eacute;tadonn&eacute;es.<br/>
+                        Le chemin / est <b>obligatoire</b>, il indique le chemin par d&eacute;faut.
+                        Le premier chemin r&eacute;pondant au contexte actuel sera utilis&eacute;. Attention &agrave; l'ordre dans lequel vous les placez.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea rows="10"
+                           cols="30"
+                           name="COLLECTIONS"
+                           id="collections"
+                           tal:content="COLLECTIONS">
+                    </textarea>
+                </div>
+
+                <div class="field"
+                     tal:define="COLLECTION_METADATA request/COLLECTION_METADATA | metnav_properties/COLLECTION_METADATA;
+                             error errors/COLLECTION_METADATA | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label>Chemin relatif de la collection des m&eacute;tadonn&eacute;es</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp">
+                        Indiquez le chemin de collection des m&eacute;tadonn&eacute;es. Ex: '/db/csphysique/metadata'.<br/>
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="COLLECTION_METADATA"
+                           id="collection_metadata"
+                           value=""
+                           tal:attributes="value python:COLLECTION_METADATA.strip(' ');" />
+                </div>
+
+
+            </fieldset>
+
+            <fieldset>
+                <legend i18n:translate="legend_templates_url">URL des templates</legend>
+
+                <p i18n:translate="description_templates_url">
+                    Vous pouvez configurer dans cette partie les URL o&ugrave; sont situ&eacute;es les diff&eacute;rents templates d'affichage des donn&eacute;es XML.
+                </p>
+
+                <div class="field"
+                     tal:define="URL_DOC request/URL_DOC | metnav_properties/URL_DOC;
+                             error errors/URL_DOC | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_url_doc" for="url_doc">Chemin et template pour les documents</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_url_doc">
+                        Chemin et template pour les documents.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="URL_DOC"
+                           id="url_doc"
+                           value=""
+                           tal:attributes="value URL_DOC" />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend i18n:translate="legend_xsl">XSL</legend>
+                <p i18n:translate="description_xsl">
+                    Vous pouvez configurer dans cette partie les chemins vers les XSL ainsi que les options &agrave; passer pour la transformation de Docbook vers HTML.
+                </p>
+                <div class="field"
+                     tal:define="DB_XSL request/DB_XSL | metnav_properties/DB_XSL;
+                             error errors/DB_XSL | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_db_xsl" for="db_xsl">Chemin vers la XSL DocBook</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_db_xsl">
+                        Chemin vers la XSL DocBook &agrave; utiliser pour les transformations. Pr&eacute;ciser le type d'URI (file://, xmldb:exist://, etc.).
+                        Attention, s'il s'agit d'un type 'file://', c'est la localisation sur la machine qui h&eacute;berge le serveur eXist qui doit &ecirc;tre donn&eacute;e.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="DB_XSL"
+                           id="db_xsl"
+                           value=""
+                           tal:attributes="value DB_XSL" />
+                </div>
+
+                <div class="field"
+                     tal:define="DB_XSL_OPTS request/DB_XSL_OPTS | python:'\n'.join(metnav_properties.DB_XSL_OPTS);
+                             error errors/DB_XSL_OPTS | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_db_xsl_opts" for="db_xsl_opts">Options &agrave; passer &agrave; la XSL DocBook</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_db_xsl_opts">
+                        Options &agrave; passer &agrave; la XSL DocBook lors de la transformation (voir la documentation de la XSL). Une option par ligne, de la forme :
+                        param=value
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea
+                           name="DB_XSL_OPTS"
+                           rows="10"
+                           cols="30"
+                           id="db_xsl_opts"
+                           tal:content="DB_XSL_OPTS">
+                    </textarea>
+                </div>
+
+                <div class="field"
+                     tal:define="XSL_CLASS_LIST request/XSL_CLASS_LIST | metnav_properties/XSL_CLASS_LIST;
+                             error errors/XSL_CLASS_LIST | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_xsl_class_list" for="xsl_class_list">Chemin vers la XSL qui transforme la classification en liste</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_xsl_class_list">
+                        Chemin vers la XSL qui transforme la classification en liste (portlet th&egrave;mes). Pr&eacute;ciser le type d'URI (file://, xmldb:exist://, etc.).
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="XSL_CLASS_LIST"
+                           id="xsl_class_list"
+                           value=""
+                           tal:attributes="value XSL_CLASS_LIST" />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend i18n:translate="legend_xpath">Mod&egrave;les XPath</legend>
+                <p i18n:translate="description_xpath">
+                    Vous pouvez configurer dans cette partie les xquery utilis&eacute;es pour la navigation sur les m&eacute;tadonn&eacute;es afin de personnaliser les r&eacute;sultats renvoy&eacute;s.
+                </p>
+								<div class="field"
+                     tal:define="RESOURCE_URL request/RESOURCE_URL | metnav_properties/RESOURCE_URL;
+                             error errors/RESOURCE_URL | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label>Path for resource URL</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp">
+                        Define the path for extract the resource URL. Ex: '/lom:technical/lom:location[2]/text()' or '/lom:technical/lom:location[1]/text()' or '//lom:location[2]/text()'.<br/>
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="RESOURCE_URL"
+                           id="resource_url"
+                           value=""
+                           tal:attributes="value python:RESOURCE_URL.strip(' ');" />
+                </div>
+                <div class="field"
+                     tal:define="CONDITION_BASE request/CONDITION_BASE | metnav_properties/CONDITION_BASE;
+                             error errors/CONDITION_BASE | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_condition_base" for="condition_base">Condition de base XQuery</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_condition_base">
+                        Un morceau valide de XQuery exprimant une condition qui sera appliqu&eacute;e &agrave; toutes les XQueries.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="CONDITION_BASE"
+                           id="condition_base"
+                           value=""
+                           tal:attributes="value CONDITION_BASE" />
+                </div>
+
+                <div class="field"
+                     tal:define="DEFAULT_COLLATION request/DEFAULT_COLLATION | metnav_properties/DEFAULT_COLLATION;
+                             error errors/DEFAULT_COLLATION | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_default_collation" for="default_collation">Collation par d&eacute;faut</label>
+
+                    <div class="formHelp" i18n:translate="help_default_collation">
+                        Formulation XQuery de la collation (langue et r&egrave;gles de langages) utilis&eacute;e par d&eacute;faut.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="DEFAULT_COLLATION"
+                           id="default_collation"
+                           value=""
+                           tal:attributes="value DEFAULT_COLLATION" />
+                </div>
+
+                <div class="field"
+                     tal:define="HEAD_SUP request/HEAD_SUP | python:'\n'.join(metnav_properties.HEAD_SUP);
+                             error errors/HEAD_SUP | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_head_sup" for="head_sup">Options suppl&eacute;mentaires du header</label>
+
+                    <div class="formHelp" i18n:translate="help_head_sup">
+                        Options suppl&eacute;mentaires &agrave; placer dans le header des XQueries.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea rows="5"
+                           name="HEAD_SUP"
+                           id="head_sup"
+                           value=""
+                           tal:content="HEAD_SUP">
+                    </textarea>
+                </div>
+
+                <div class="field"
+                     tal:define="TEMPLATE_SEARCH request/TEMPLATE_SEARCH | metnav_properties/TEMPLATE_SEARCH;
+                             error errors/TEMPLATE_SEARCH | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_template_search" for="template_search">Expression de recherche par d&eacute;faut</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_template_search">
+                        Expression de recherche. Deux %s sont accept&eacute;s : le premier est le noeud XML dans lequel chercher, le deuxi&egrave;me est l'expression &agrave; rechercher.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="TEMPLATE_SEARCH"
+                           id="template_search"
+                           value=""
+                           tal:attributes="value TEMPLATE_SEARCH" />
+                </div>
+
+                <div class="field"
+                     tal:define="XPATH_SEARCH_EXPR request/XPATH_SEARCH_EXPR | python:'\n'.join(metnav_properties.XPATH_SEARCH_EXPR);
+                             error errors/XPATH_SEARCH_EXPR | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_xpath_search_expr" for="xpath_search_expr">Variables pour les recherches XPath</label>
+
+                     <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_xpath_search_expr">
+                        Variables qui seront utilis&eacute;es dans les recherches XPath avec leur correspondance XPath. De la forme variable=valeur. Une par ligne.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea rows="5"
+                           name="XPATH_SEARCH_EXPR"
+                           id="xpath_search_expr"
+                           value=""
+                           tal:content="XPATH_SEARCH_EXPR">
+                    </textarea>
+                </div>
+
+                <div class="field"
+                     tal:define="OBJET_SEMAINE request/OBJET_SEMAINE | metnav_properties/OBJET_SEMAINE;
+                             error errors/OBJET_SEMAINE | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label i18n:translate="label_objet_semaine" for="objet_semaine">D&eacute;finition d'un type "ressource de la semaine"</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp" i18n:translate="help_objet_semaine">
+                        Un morceau valide de XQuery exprimant une fa&ccedil;on de filtrer les types d'objets pour cr&eacute;er une ressource de la semaine.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input size="80"
+                           name="OBJET_SEMAINE"
+                           id="objet_semaine"
+                           value=""
+                           tal:attributes="value OBJET_SEMAINE" />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Archives</legend>
+
+                <p>
+                    Vous pouvez configurer dans cette partie tout ce qui concerne les archives des ressources.
+                </p>
+
+                <div class="field"
+                     tal:define="INIT_ANNEE request/INIT_ANNEE | metnav_properties/INIT_ANNEE;
+                             error errors/INIT_ANNEE | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label for="INIT_ANNEE">Année initiale</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp">
+                        Saisissez l'année initiale des archives.
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+
+                   <input size="80"
+                          name="INIT_ANNEE"
+                          id="init_annee"
+                          value=""
+                          tal:attributes="value INIT_ANNEE" />
+                </div>
+
+                <div class="field"
+                     tal:define="ARCHIVE_MOIS request/ARCHIVE_MOIS | metnav_properties/ARCHIVE_MOIS;
+                             error errors/ARCHIVE_MOIS | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label>Archives classées par mois ou par année</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp">
+                        Les archives seront classées par mois ?
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+                    <div tal:condition="python:ARCHIVE_MOIS==False or ARCHIVE_MOIS=='False'">
+                    <input name="ARCHIVE_MOIS"
+                           id="archive_mois"
+                           value="True"
+                           type="radio" /> Oui
+                   <input name="ARCHIVE_MOIS"
+                           id="archive_moisbis"
+                           value="False"
+                           type="radio"
+                           checked="checked" />Non, par année                 </div>
+<div tal:condition="python:ARCHIVE_MOIS==True or ARCHIVE_MOIS=='True'">
+                    <input name="ARCHIVE_MOIS"
+                           id="archive_mois"
+                           value="True"
+                           checked="checked"
+                           type="radio" /> Oui
+                   <input name="ARCHIVE_MOIS"
+                           id="archive_moisbis"
+                           value="False"
+                           type="radio" />Non, par année                 </div>
+                </div>
+                <div class="field"
+                     tal:define="HREF_BLANK request/HREF_BLANK | metnav_properties/HREF_BLANK;
+                             error errors/HREF_BLANK | nothing;"
+                     tal:attributes="class python:test(error, 'field error', 'field')">
+
+                    <label>Les liens avec "http:// ..." s'ouvre dans une nouvelle fenêtre (target="_blank")</label>
+
+                    <span class="fieldRequired" title="Required"
+                      i18n:attributes="title title_required;"
+                      i18n:translate="label_required">(Required)</span>
+
+                    <div class="formHelp">
+                        Les liens vers les pages de ressources commençant par "http://" s'ouvre dans une nouvelle fenêtre ?
+                    </div>
+
+                    <div tal:content="error">Validation error output</div>
+                    <div tal:condition="python:HREF_BLANK==False or HREF_BLANK=='False'">
+                    <input name="HREF_BLANK"
+                           id="href_blank"
+                           value="True"
+                           type="radio" /> Oui
+                   <input name="HREF_BLANK"
+                           id="href_balnkbis"
+                           value="False"
+                           type="radio"
+                           checked="checked" />Non           
+                </div>
+                <div tal:condition="python:HREF_BLANK==True or HREF_BLANK=='True'">
+                    <input name="HREF_BLANK"
+                           id="href_blank"
+                           value="True"
+                           checked="checked"
+                           type="radio" /> Oui
+                   <input name="HREF_BLANK"
+                           id="href_blankbis"
+                           value="False"
+                           type="radio" />Non
+                </div>
+                </div>
+            </fieldset>
+            <input type="hidden" name="form.submitted" value="1" />
+
+	        <div class="formControls">
+                <input class="context"
+                       type="submit"
+                       name="form.button.Save"
+                       value="Save"
+                       i18n:attributes="value label_save;"
+                       />
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+</body>
+</html>

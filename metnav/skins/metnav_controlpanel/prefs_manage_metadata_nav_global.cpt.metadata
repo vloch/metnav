@@ -1,0 +1,9 @@
+[default]
+title=MetNav Setup
+
+[security]
+View = 0:Manager
+
+[actions]
+action.success=traverse_to:string:prefs_manage_metadata_nav_global_set
+action.failure=traverse_to:string:prefs_manage_metadata_nav_global

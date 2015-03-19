@@ -1,0 +1,102 @@
+/*Amazing carousel*/
+/* content */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+#amazingcarousel-7 .amazingcarousel-image {	
+	position: relative;
+	padding: 0px;
+}
+
+#amazingcarousel-7 .amazingcarousel-image img {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+}
+
+#amazingcarousel-7 .amazingcarousel-title {
+	position:relative;
+	font: bold 12px 'Open Sans', sans-serif;
+	color:#333333;
+	margin:6px;
+	text-align:left;
+	line-height: 14px;
+	height: 14px;
+	overflow: hidden;
+}
+
+#amazingcarousel-7 .amazingcarousel-description {
+	position:relative;
+	font: 12px 'Open Sans', sans-serif;
+	color:#333333;
+	margin:6px;
+	text-align:left;
+	line-height: 14px;		
+	height: 28px;
+	overflow: hidden;
+}
+
+/* carousel */
+
+#amazingcarousel-container-7 {
+	padding: 32px 60px; 
+}
+
+#amazingcarousel-7 .amazingcarousel-list-container { 
+	padding: 16px 0;
+}
+
+/* item */
+
+#amazingcarousel-7 .amazingcarousel-item-container {
+	text-align: center;
+	padding: 4px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	-moz-box-shadow: 0px 0px 5px 1px rgba(96, 96, 96, 0.1);
+	-webkit-box-shadow: 0px 0px 5px 1px rgba(96, 96, 96, 0.1);
+	box-shadow: 0px 0px 5px 1px rgba(96, 96, 96, 0.1);
+}
+
+/* arrows */
+
+#amazingcarousel-7 .amazingcarousel-prev {
+	left: 0%;
+	top: 50%;
+	margin-left: -60px;
+	margin-top: -24px;
+        overflow: hidden; 
+        position: absolute;
+        cursor: pointer;
+        width: 48px; height: 48px; 
+        background: url("arrows-48-48-2.png") no-repeat scroll left top transparent !important;
+        display: block;
+}
+
+#amazingcarousel-7 .amazingcarousel-next {
+	right: 0%;
+	top: 50%;
+	margin-right: -60px;
+	margin-top: -24px;
+        overflow: hidden; position: absolute; cursor: pointer; width: 48px; height: 48px; 
+        background: url("arrows-48-48-2.png") no-repeat scroll right top transparent !important;
+        display: block;
+}
+
+/* navigation bullets */
+
+#amazingcarousel-7 .amazingcarousel-nav {
+	position: absolute;
+	width: 100%;
+	top: 100%;
+}
+
+#amazingcarousel-7 .amazingcarousel-bullet-wrapper {
+	margin: 4px auto;
+}

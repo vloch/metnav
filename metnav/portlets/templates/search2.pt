@@ -1,0 +1,63 @@
+<dl class="portlet portletSearch"
+    i18n:domain="plone">
+
+    <!--dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span><a
+            tal:attributes="href view/search_form"
+            i18n:translate="box_search">Search</a></span>
+        <span class="portletTopRight"></span>
+   </dt-->
+
+    <dd class="portletItem">
+        <form action="search_exist" name="recherche" id="recherche"
+            tal:define="livesearch view/enable_livesearch;
+                        searchType python:request.get('type_ressources', 'search_exist');"
+            tal:attributes="action view/search_action">
+            <div class="LSBox">
+                <input class="searchField inputLabel"
+                  name="SearchableText"
+                  type="text"
+                  size="15"
+                  title="Search Site"
+                  tal:define="service request/service|nothing;
+                              value request/SearchableText|nothing;"
+                  i18n:attributes="title title_search_title;"
+                  tal:attributes="value python:service == 'cumulus' and value.decode('latin1').encode('utf8') or value;
+                                  class python:livesearch and 'inputLabel searchField portlet-search-gadget' or 'inputLabel searchField portlet-search-gadget-nols'"
+                  />
+                <input type="hidden" value="0" name="fuzzy" />
+
+                <input class="searchButton"
+                  type="submit"
+                  value="Search"
+                  i18n:attributes="value label_search;"/>
+
+                <div class="LSResult" style="" tal:condition="livesearch">
+                    <div class="LSShadow"></div>
+                </div>
+            </div>
+            <div class="searchChoiceBox">
+                <input type="radio" class="radio"
+                        name="type_ressources"
+                        id="datas"
+                        checked="checked"
+                        value="search_exist"
+                        tal:attributes="checked python:searchType=='search_exist' and 'checked' or None;"
+                        /><label for="datas">des ressources</label><br/>
+                <input type="radio" class="radio"
+                        name="type_ressources"
+                        id="infos"
+                        value="search"
+                        tal:attributes="checked python:searchType=='search' and 'checked' or None;"
+                        /><label for="infos">dans tout le site</label><br/>
+            </div>
+
+        </form>
+      <div class="visualClear"><!-- --></div>
+    </dd>
+    <!--dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd-->
+</dl>

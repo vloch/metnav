@@ -1,0 +1,93 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border', 1)" />
+
+<body>
+
+<div metal:fill-slot="main" id="content-news"
+tal:define="isFolder python:test(here.meta_type == 'Plone Folder', 1, 0);
+                  curPath python:'/'.join(here.getPhysicalPath()[:test(isFolder, nothing, -1)]);
+                  results python:container.portal_catalog(portal_type='Link',sort_on='Date',
+                                                         sort_order='reverse',review_state='published',
+                                                         path=curPath);
+                 results python:[r for r in results if r.getObject()];
+                 Batch python:modules['Products.CMFPlone'].Batch;
+                 b_start python:request.get('b_start',0);
+                 portal_discussion nocall:here/portal_discussion;
+                 isDiscussionAllowedFor nocall:portal_discussion/isDiscussionAllowedFor;
+                 getDiscussionFor nocall:portal_discussion/getDiscussionFor;
+                 home_url python: mtool.getHomeUrl;
+                 localized_time python: modules['Products.CMFPlone.PloneUtilities'].localized_time;">
+
+<h1 tal:content="context/title_or_id">Titre du repertoire </h1>
+<p class="documentDescription" tal:content="context/Description">description du repertoire</p>
+
+
+    <form name="searchresults" action="" method="post" tal:condition="results"
+                      tal:define="batch python:Batch(results, 15, int(b_start), orphan=1)">
+
+        <metal:block tal:repeat="result batch">
+
+            <div class="newsItem"
+                 metal:define-macro="listitem"
+                 tal:define="resultObject result/getObject;                             
+                             resulturl resultObject/absolute_url;
+                             rssurl resultObject/remote_url;
+                             ">
+
+                <h2>
+                    <a href="/view" 
+                       tal:attributes="href resulturl" 
+                       tal:content="result/Title">
+                        News headline
+                    </a>
+                </h2>
+
+                <div class="newsContent">
+
+                    <p tal:content="structure result/Description">
+                        Description
+                    </p>
+    
+                    <ul class="newsAbout">
+                         
+                        <li>
+                            <span tal:omit-tag="" i18n:translate="label_published">Published</span>:
+                            <span tal:replace="python: localized_time(result.Date, context=here)" />
+                        </li>
+                    </ul>
+
+
+                    <ul class="newsFooter">
+                        <li>
+                            <a href="/view" tal:attributes="href rssurl">
+                                Voir le flux RSS (url &agrave; r&eacute;cup&eacute;rer)</a>
+                        </li>
+
+                    </ul>
+                    
+                </div>
+
+            </div>
+
+        </metal:block>
+
+        <!-- Navigation -->
+        <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+        </form>
+
+    <p tal:condition="not: results" >
+        Aucun Flux RSS pour ce site.
+    </p>
+
+  </div>
+
+</body>
+
+
+</html>

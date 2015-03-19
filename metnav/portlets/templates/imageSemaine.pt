@@ -1,0 +1,41 @@
+<dl class="portlet portletImageSemaine"
+    id="portlet-image-semaine"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plone">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+            <span tal:content="view/titleImageSemaine">
+                L'image de la semaine</span>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem" tal:define="obj python:view.searchImagesSemaine()[0];
+                         urlImg python:obj['res/urlImg'][0];
+                         srcImg python:urlImg">
+<a href="" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]">
+        <div tal:attributes="style python:'background:url('+srcImg+') left top no-repeat'" class="ImageBg">
+                    <center>
+                        
+                            
+                            <!--img src="" alt="" title="" tal:attributes="src srcImg;
+                                                                        alt python:obj['res/title'][0];
+                                                                        title python:obj['res/description'][0]"/-->
+                            <p tal:content="python:obj['res/title'][0]"></p>
+
+        </div>
+</a>
+
+    </dd>
+
+    <dd class="portletFooter" tal:condition="view/displayFooter">
+        <span class="portletBottomLeft"></span>
+        <a href="" tal:attributes="href string:${context/portal_url}/images-de-la-semaine;">
+          Voir toutes les images de la semaine&hellip;
+        </a>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>

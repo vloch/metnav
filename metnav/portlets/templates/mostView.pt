@@ -1,0 +1,81 @@
+    <dl class="portlet" id="portlet-mostView" 
+         tal:define="mn_props context/portal_properties/metnav_properties;
+                     href_blank mn_props/HREF_BLANK | python:True;
+    				 leadImage view/data/enableLeadImage;">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:content="view/data/portlet_title">Les plus vues</span>
+            <span class="portletTopRight"></span>
+        </dt>
+        <tal:sansVignette tal:condition="python:leadImage=='Sans vignette'">
+        <dd tal:repeat="lien view/data/liens"
+            tal:attributes="class python: repeat['lien'].even() and 'portletItem even' or 'portletItem odd'">
+            <tal:results tal:define="objs python:view.getRStitle(lien);">
+                <tal:result tal:repeat="obj objs">
+                 <span tal:repeat="img python:context.getRscIcon(str(obj['res/type'][0]))">
+                    <img src="" alt="" style="border: 0"
+                         tal:attributes="src string:${context/portal_url}/icones/${img};
+                                         alt img;
+                                         title python:str(img.split('.')[0]);"/>
+                    </span>
+                    <a href=""  tal:condition="python:href_blank==True" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]" target="_blank">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+                    </a>
+                    <a href=""  tal:condition="python:href_blank==False" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+                    </a> -
+                    <span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"></span>
+                </tal:result>
+           </tal:results>
+        </dd>
+		</tal:sansVignette>
+		
+		<tal:avecVignette tal:condition="python:leadImage=='Avec vignette'">
+        <dd tal:repeat="lien view/data/liens"
+            tal:attributes="class python: repeat['lien'].even() and 'portletItem vignette even' or 'portletItem vignette odd'">
+            <tal:results tal:define="objs python:view.getRStitle(lien);">
+                <tal:result tal:repeat="obj objs">
+                 <a href="" tal:attributes="href python:obj['res/url'][0];
+										title description" tal:define="description python:obj['res/description'][0]">
+								<h5 tal:content="python:obj['res/title'][0]"/>
+								<img width="200" alt="" tal:attributes="src python:obj['res/urlLeadImage'][0];
+								                                        alt description" tal:condition="python:obj.has_key('res/urlLeadImage')"/>
+	                            <img height="150" alt="" src="default.jpg" tal:attributes="alt description" tal:condition="python:not(obj.has_key('res/urlLeadImage'))"/>
+							</a>
+							<p>Publié le <span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"/></p>
+                </tal:result>
+           </tal:results>
+        </dd>
+		</tal:avecVignette>
+		<tal:avecSlider tal:condition="python:leadImage=='Avec Slider'">
+		<!--script type="text/javascript" tal:attributes="src string:${context/portal_url}/jquery-182min.js"></script-->
+		<script type="text/javascript" tal:attributes="src string:${context/portal_url}/list-slider.js"></script>
+		<ul class="bxslider">
+        <tal:lien tal:repeat="lien view/data/liens">
+            <tal:results tal:define="objs python:view.getRStitle(lien);">
+			<tal:block tal:repeat="obj objs">
+                <li tal:attributes="style python:'background:url(\''+obj['res/urlLeadImage'][0]+'\') left top no-repeat'" class="ImageBg" tal:condition="python:obj.has_key('res/urlLeadImage')">
+                 <a href="" tal:attributes="href python:obj['res/url'][0];"
+							tal:define="description python:obj['res/description'][0]">
+					<img height="160" src="spacer.png" tal:attributes="title python:'<h3>'+obj['res/title'][0]+'</h3>'+ context.cropText(obj['res/description'][0], 200);"/>
+									</a>								
+				</li>
+				</tal:block>
+           </tal:results>
+        </tal:lien>
+		</ul>
+		<script class="secret-source">
+        $('.bxslider').bxSlider({
+           captions: true,
+           auto:true,
+           autoHover:true,
+           responsive:true,
+           randomStart:false,
+        });
+      </script>
+		</tal:avecSlider>
+    </dl>
+	

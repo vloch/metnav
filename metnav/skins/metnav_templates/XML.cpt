@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR"
+      lang="fr-FR"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="metnav">
+
+    <metal:block fill-slot="base">
+        <tal:block tal:define="dummy python:request.set('disable_border', 1)"
+                     tal:replace="nothing">
+            Disable the tabs
+        </tal:block>
+    </metal:block>
+
+    <div metal:fill-slot="main" tal:omit-tag=""
+             tal:define="traverse_subpath python: request.get('traverse_subpath', []);">
+
+        <tal:block tal:condition="not:traverse_subpath">
+            <center i18n:translate="xml_select_res">You must select a resource to view.</center>
+        </tal:block>
+
+        <tal:block tal:condition="traverse_subpath"
+                   tal:define="
+                         full_url python:'/' + '/'.join(traverse_subpath);
+                         portal context/@@plone_portal_state/portal;
+                         member context/@@plone_portal_state/member;
+                         portal_url context/@@plone_portal_state/portal_url;
+                         xmlview context/@@XML;
+                         ">
+            <!-- Affichage des mots cles -->
+
+            <tal:block metal:define-macro="motsCles"
+                       tal:replace="structure python:portal.afficheMotsCles(full_url, portal_url)">
+                MotsClés
+            </tal:block>
+
+            <!-- Article -->
+            <div id="article-xml">
+                <div tal:replace="structure python:xmlview.get_article_html(full_url)">article</div>
+            </div>
+           <div metal:use-macro="here/XML/macros/motsCles" />
+        </tal:block>
+
+    </div>
+</html>

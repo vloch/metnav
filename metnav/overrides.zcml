@@ -1,0 +1,27 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <!-- Register viewlet managers - used in plone's main_template -->
+
+    <!-- Define some viewlets -->
+    <!-- The searchbox -->
+    <browser:viewlet
+        name="plone.searchbox"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class="plone.app.layout.viewlets.common.SearchBoxViewlet"
+        template="viewlets/templates/searchbox.pt"
+        permission="zope2.View"
+     />
+
+    <!-- The breadcrumbs -->
+    <browser:viewlet
+        name="metnav.path_bar"
+        manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+        class="plone.app.layout.viewlets.common.PathBarViewlet"
+        template="viewlets/templates/path_bar.pt"
+        permission="zope2.View"
+        />
+
+
+</configure>

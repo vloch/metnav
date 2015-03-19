@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<object>
+
+  <order manager="plone.portalfooter" skinname="MetNav"
+         based-on="Sunburst Theme">
+  </order>
+   <hidden manager="plone.portaltop" skinname="MetNav">
+        <viewlet name="plone.path_bar"/>
+    </hidden>
+  <hidden manager="plone.portalheader" skinname="MetNav">
+        <viewlet name="plone.searchbox" />
+  </hidden>
+
+</object>

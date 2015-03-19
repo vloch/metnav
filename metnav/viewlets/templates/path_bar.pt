@@ -1,0 +1,82 @@
+<div id="portal-breadcrumbs"
+     i18n:domain="plone">
+<div tal:define="urlAbsolute python:request['URL'];
+                 exist string:search_exist?;
+                 xml string:XML;">
+
+    <span id="breadcrumbs-you-are-here" i18n:translate="you_are_here">You
+are here:</span>
+    <a i18n:translate="tabs_home" tal:attributes="href view/navigation_root_url">Home</a>
+    <span tal:condition="view/breadcrumbs" class="breadcrumbSeparator">
+        <tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+    </span>
+<span tal:condition="python: urlAbsolute.find(exist)!=-1">
+
+        <tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+Recherche
+<tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+     Mot(s) clé(s) : <span tal:content="python:request['SearchableText']"></span>
+</span>
+
+<span tal:condition="python: urlAbsolute.find('res_published')!=-1">
+
+        <tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+Dernières ressources publiées
+
+</span>
+<span tal:condition="python: urlAbsolute.find('/archives')!=-1">
+
+        <tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+Archives
+
+</span>
+
+<span tal:condition="python: urlAbsolute.find('/XML')!=-1">
+<tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+    <span tal:attributes="dir python:view.is_rtl and 'rtl' or 'ltr'"><a href="" tal:attributes="href string:${here/portal_url}/ressources">Ressources</a></span>
+
+<tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+    <span tal:define="url python:'/' + '/'.join(request['traverse_subpath']);"
+             tal:content="python:here.getArticleTitleFromMeta(url)">Doc</span>
+
+</span>
+
+
+    <span tal:repeat="crumb view/breadcrumbs"
+          tal:attributes="dir python:view.is_rtl and 'rtl' or 'ltr'">
+        <tal:last tal:define="is_last repeat/crumb/end">
+            <a href="#"
+               tal:omit-tag="not: crumb/absolute_url"
+               tal:condition="python:not is_last or urlAbsolute.find('voir_xml')!=-1 or urlAbsolute.find('voirConnexes')!=-1"
+               tal:attributes="href crumb/absolute_url"
+               tal:content="crumb/Title">
+                crumb
+            </a>
+            <span class="breadcrumbSeparator" tal:condition="not: is_last">
+                <tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+                <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+            </span>
+            <span tal:condition="is_last">
+                  <span tal:condition="python: urlAbsolute.find('voir_xml')==-1" tal:content="crumb/Title">crumb</span>
+                  <span tal:condition="python: urlAbsolute.find('voir_xml')!=-1 | urlAbsolute.find('voirConnexes')!=-1" tal:content="string:">crumb</span>
+           </span>
+         </tal:last>
+    </span>
+
+
+<span tal:condition="python:urlAbsolute.find('voir_xml')!=-1 or urlAbsolute.find('voirConnexes')!=-1">
+<tal:ltr condition="not: view/is_rtl">&rarr;</tal:ltr>
+        <tal:rtl condition="view/is_rtl">&raquo;</tal:rtl>
+    <span tal:define="url python:request['url'].split('xmldb:exist://phumsambo.pratic.ens-lyon.fr')[1];"
+             tal:content="python:here.getArticleTitleFromMeta(url)">Doc</span>
+
+</span>
+</div>
+</div>

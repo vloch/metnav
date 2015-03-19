@@ -1,0 +1,164 @@
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+#portlet-classification .brother{
+    font-weight: bold;
+}
+
+#search-exist .criteresSearch,
+#search-exist .criteresSearchTheme{
+    padding:5px;
+    margin-right:0;
+    margin-left:5px;
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -moz-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -webkit-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    -o-border-radius: 0.5em 0.5em 0.5em 0.5em;
+    border:1px solid #e7e7e7;
+    box-shadow: 2px 2px 10px #CCCCCC;
+    display:block;
+}
+#search-exist .criteresSearch{
+    width:250px;
+    float:right;
+}
+
+#search-exist .criteresSearch fieldset,
+#search-exist .criteresSearchTheme fieldset{
+    border-top:none;
+    margin: 0;
+    padding: 0;
+}
+
+p.goToTop {
+color:#b92227;
+cursor:pointer;
+}
+#portlet-nouveautes-du-site dd.portletItem.vignette{
+display:inline-block;
+width:200px;
+min-height:200px;
+text-valign:top;
+background-color:#eee;
+} 
+dd.portletItem div.ImageBg{
+height:150px;
+background-size:cover!important;
+line-height:200px;
+padding:0!important;
+}
+
+dd.portletItem div.ImageBg div.ImageBg {
+background-size:auto!important;
+}
+
+div.ImageBg p {
+background:#FFF;
+background:rgba(255,255,255,0.8);
+min-height:50px;
+margin:0!important;
+line-height:1.2;
+display: inline-block;
+vertical-align: bottom;
+/* Hack IE */
+*display: inline;
+*zoom: 1;
+width:96.1%;
+padding:2%;
+opacity:1;
+-webkit-transition:opacity 1s;
+-moz-transition:opacity 1s;
+-o-transition:opacity 1s;
+transition:opacity 1s;
+}
+
+a:hover div.ImageBg p {
+opacity:0;
+}
+#portlet-classification ul, #portlet-classification ul li{
+list-style:none;
+}
+
+#portlet-classification .parent{
+border-left:4px solid #FA8C01;
+  font-size:1.2em;
+}
+#portlet-classification .frere{
+font-size: 90%;
+    line-height: 1.5em;
+}
+#portlet-classification .showEnfants{
+display:block;
+}
+#portlet-classification .hideEnfants{
+display:none;
+}
+#portlet-classification .currentItem{
+  border-left:3px solid #FA8C01;
+  font-weight:bold;
+}
+
+div[u="slides"] {
+left:0!important;
+}
+.amazingcarousel-item-bottom-shadow {
+display:none!important;
+}
+ul.bxslider {
+margin:0!important;
+}
+
+ul.bxslider li {
+background-size:cover!important;
+}
+
+.bx-wrapper .bx-viewport {
+box-shadow:none;
+}
+
+.bx-wrapper .bx-caption {
+background:rgba(67, 65, 66, 0.9);
+}
+
+#amazingcarousel-7 .amazingcarousel-title,#amazingcarousel-7 .amazingcarousel-description {
+height:auto;
+}
+
+.amazingcarousel-image a {
+position:relative;
+display:block;
+}
+
+#amazingcarousel-7 .amazingcarousel-description {
+position:absolute;
+margin:0;
+top:0;
+background:#FFF;
+opacity:0;
+height:100%;
+}
+
+#amazingcarousel-7 .amazingcarousel-item-container {
+border:none;
+box-shadow:none;
+}
+
+.amazingcarousel-image a:hover .amazingcarousel-description {
+color:#000;
+opacity:1!important;
+transition: opacity 1s ease 0s;}
+
+.carousel-bg {
+background-size:cover!important;
+}
+
+
+/*autocomplete for search engine*/
+.autocomplete-w1 { background:url(img/shadow.png) no-repeat bottom right; position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; } 
+.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; max-height:350px; overflow:auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; } 
+.autocomplete .selected { background:#F0F0F0; } 
+.autocomplete div { padding:2px 5px; white-space:nowrap; overflow:hidden; } 
+.autocomplete strong { font-weight:normal; color:#3399FF; }
+
+/* </dtml-with> */
+

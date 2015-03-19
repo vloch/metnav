@@ -1,0 +1,88 @@
+<dl class="portlet portletNouveautesDuSite"
+    id="portlet-nouveautes-du-site"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plone">
+	<tal:block tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+					 DateTime python:modules['DateTime'].DateTime;
+					 b_start python:request.get('b_start',0,1);
+					 mn_props context/portal_properties/metnav_properties;
+					 href_blank mn_props/HREF_BLANK | python:False;
+					 leadImage view/enableLeadImage;
+					 results_xml python:view.searchRecentXMLDocs();">
+        <dt class="portletHeader">
+				<span class="portletTopLeft"></span>
+					<span><a
+						tal:attributes="href string:${context/portal_url}/recently_published;"
+						tal:content="view/recentTitle">Le titre du portlet</a></span>
+				<span class="portletTopRight"></span>
+		</dt>
+		<tal:sansVignette tal:condition="python:leadImage=='Sans vignette'">
+			<dd class="portletFooter">
+				<span class="portletBottomLeft"></span>
+				<a href="" tal:attributes="href string:${context/portal_url}/recently_published;">
+				  Voir aussi&hellip;
+				</a>
+				<span class="portletBottomRight"></span>
+			</dd>
+			<dd class="portletItem" tal:repeat="obj results_xml">
+							<span tal:repeat="img python:context.getRscIcon(str(obj['res/type'][0]))">
+							<img src="" alt="" style="border: 0"
+								 tal:attributes="src python:context.portal_url()+'/icones/'+img;
+												 alt python:img;
+												 title python:str(img.split('.')[0]);"/>
+							</span>
+							<a href="" tal:attributes="href python:obj['res/url'][0];
+										title python:obj['res/description'][0]">
+								<span tal:content="python:obj['res/title'][0]"></span>
+							</a> -
+							<span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"></span>
+			</dd>
+		</tal:sansVignette>
+		<tal:avecVignette tal:condition="python:leadImage=='Avec vignette'">
+			<dt class="portletHeader">
+				<span class="portletTopLeft"></span>
+					<span><a
+						tal:attributes="href string:${context/portal_url}/recently_published;"
+						tal:content="view/recentTitle">Le titre du portlet</a></span>
+				<span class="portletTopRight"></span>
+			</dt>
+			<dd class="portletItem vignette" tal:repeat="obj results_xml">
+							<a href="" tal:attributes="href python:obj['res/url'][0];
+										title description" tal:define="description python:obj['res/description'][0]">
+							<div tal:attributes="style python:'background:url(\''+obj['res/urlLeadImage'][0]+'\') left top no-repeat'" class="ImageBg" tal:condition="python:obj.has_key('res/urlLeadImage')">
+								<p class="portletImageTitle" style="font-size:102%%;font-weight:bold;"> <span tal:content="python:obj['res/title'][0]"/>
+								<span class="discreet" style="font-size:90%%;font-weight:normal;"> - Publié le <span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"/></span>
+								</p>
+							</div>
+							</a>
+							
+			</dd>
+
+		</tal:avecVignette>
+		
+		<tal:avecSlider tal:condition="python:leadImage=='Avec Slider'">
+			<script type="text/javascript" tal:attributes="src string:${context/portal_url}/list-slider.js"></script>
+			<ul class="bxslider">
+					<li tal:repeat="obj results_xml" tal:attributes="style python:'background:url(\''+obj['res/urlLeadImage'][0]+'\') left top no-repeat'" class="ImageBg" tal:condition="python:obj.has_key('res/urlLeadImage')">
+						<a href="" tal:attributes="href python:obj['res/url'][0];
+									                                        title python:obj['res/title'][0];"
+												 tal:define="description python:obj['res/description'][0]">
+							<img height="160" src="spacer.png" tal:attributes="title python:'<h3>'+obj['res/title'][0]+'</h3>'+ context.cropText(obj['res/description'][0], 200);"/>
+						</a>								
+					</li>			
+				</ul>
+            <script class="secret-source">
+        $('.bxslider').bxSlider({
+           captions: true,
+           auto:true,
+           autoHover:true,
+           responsive:true,
+           randomStart:false,
+        });
+      </script>
+		</tal:avecSlider>
+			
+	</tal:block>
+</dl>

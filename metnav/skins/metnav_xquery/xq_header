@@ -1,0 +1,12 @@
+xquery version "%(xquery_version)s";
+%(COLLATION)s
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+declare namespace transform="http://exist-db.org/xquery/transform";
+declare namespace xsl="http://www.w3.org/1999/XSL/Transform";
+declare namespace util="http://exist-db.org/xquery/util";
+declare namespace exist="http://exist.sourceforge.net/NS/exist";
+declare namespace vdex="http://www.imsglobal.org/xsd/imsvdex_v1p0";
+declare option exist:serialize "method=xhtml";
+%(HEAD_SUP)s
+let $results := <results>{subsequence(

@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: metnav
+Version: 4.2
+Summary: Facet Metadata Navigation from eXist and LOM-fr
+Home-page: http://unis.ens-lyon.fr
+Author: UNIS (ENS Lyon)
+Author-email: unis@ens-lyon.fr
+License: CeCILL-B
+Description: Facet Navigation on LOM / LOMfr (Learning Objects Metadata and french profile of Learning Objects Metadata) using choosen tags from LOM XMLschema, management of objects and articles related to the displayed page, frontline article or object, list of last articles introduced in the database. Prodiuct is best fitted with eXistDA product to be connected to eXist database.
+        
+Keywords: Plone eXist-db facet navigation LOM LOM-fr
+Platform: UNKNOWN
+Classifier: Framework :: Plone
+Classifier: Programming Language :: Python

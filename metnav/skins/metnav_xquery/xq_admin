@@ -1,0 +1,6 @@
+%(HEADER)s
+for $res in collection("%(COLLECTION)s")/lom:lom
+let $date := $res/lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur'][1]/lom:date/lom:dateTime/text()
+order by $date descending empty least
+return
+%(TAIL)s

@@ -1,0 +1,32 @@
+<div metal:define-macro="portlet"
+     tal:condition="python:template.getId() == 'res_themes'">
+
+    <dl class="portlet" id="portlet-objects"
+        tal:define="part request/part | python:'';
+                    partl python:part.strip().split('//');
+                    obj request/obj | python:'';
+                    mn_tool nocall:portal/portal_metadataNav;
+                    obj_dict mn_tool/getObjectsDict;">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span i18n:translate="heading_objects">Objects</span>
+            <span class="portletTopRight"></span>
+        </dt>
+
+
+        <dd tal:repeat="myobj obj_dict/keys"
+            tal:attributes="class python:'portletItem ' + test(repeat['myobj'].even(), 'even', 'odd')">
+            <a href="" tal:attributes="href string:res_themes?obj=${myobj}&amp;part=${part};"
+                        tal:content="python:obj_dict[myobj]">
+                        link
+            </a>
+        </dd>
+
+        <dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd>
+    </dl>
+
+</div>

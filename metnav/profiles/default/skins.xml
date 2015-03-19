@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<object name="portal_skins">
+ <object name="metnav_images" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_images"/>
+ <object name="metnav_styles" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_styles"/>
+ <object name="metnav_portlets" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_portlets"/>
+ <object name="metnav_scripts" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_scripts"/>
+ <object name="metnav_javascripts" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_javascripts"/>
+ <object name="metnav_templates" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_templates"/>
+ <object name="metnav_xquery" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_xquery"/>
+ <object name="metnav_controlpanel" meta_type="Filesystem Directory View"
+    directory="metnav:skins/metnav_controlpanel"/>
+ <skin-path name="*">
+  <layer name="metnav_controlpanel" insert-before="custom"/>
+  <layer name="metnav_images" insert-before="metnav_controlpanel"/>
+  <layer name="metnav_xquery" insert-before="metnav_images"/>
+  <layer name="metnav_scripts" insert-before="metnav_xquery"/>
+  <layer name="metnav_javascripts" insert-before="metnav_scripts"/>
+  <layer name="metnav_portlets" insert-before="metnav_javascripts"/>
+  <layer name="metnav_templates" insert-before="metnav_portlets"/>
+  <layer name="metnav_styles" insert-before="metnav_templates"/>
+  <layer name="custom" insert-before="metnav_styles"/>
+ </skin-path>
+</object>

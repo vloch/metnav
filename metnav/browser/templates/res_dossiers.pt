@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="metnav">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<div metal:fill-slot="main"
+    tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                mn_props portal/portal_properties/metnav_properties;
+                b_start python:request.get('b_start',0);
+                b_length mn_props/BATCH_LENGTH | python:5;
+                res python:view.dossiers(here.absolute_url(), b_length, b_start, output='page');">
+
+
+    <h1 i18n:translate="heading_dossier">Dossier</h1>
+
+    <div tal:condition="not:res">
+        <p>
+            <strong i18n:translate="description_no_results_found">No results were found.</strong>
+        </p>
+    </div>
+
+
+    <div tal:condition="res">
+        <div tal:omit-tag=""
+             tal:define="nb_res python:int(view.dossiers(here.absolute_url(), output='count'));
+                         batch python:Batch(['']*nb_res, int(b_length), int(b_start), orphan=1)">
+            <strong>
+                <span i18n:translate="batch_x_items_matching_your_criteria"><span i18n:name="number" tal:content="nb_res">234</span> items matching your criteria.</span>
+            </strong>
+
+            <tal:block tal:replace="structure res">results</tal:block>
+
+            <!-- Navigation -->
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+        </div>
+    </div>
+</div>
+
+
+</html>

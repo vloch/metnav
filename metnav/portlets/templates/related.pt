@@ -1,0 +1,84 @@
+<!--dl class="portlet" id="portlet-related"
+    tal:define="meta_url python:'/' + '/'.join(request.get('traverse_subpath', []));
+                mn_props nocall:view/metnav_properties;
+                href_blank mn_props/HREF_BLANK | python:True;
+                limit python:mn_props.getProperty('LIMIT_RELATED', 5);
+                icones context/icones;
+                related python:view.related(meta_url, nb_limit=limit)[:limit]"
+                tal:condition="related"-->
+<tal:block tal:condition="python: 'ressource' in request.get('ACTUAL_URL', [])">
+<dl class="portlet" id="portlet-related"
+    tal:define="meta_url python:'/LOM_CSP_' + '/'.join(request.get('traverse_subpath', []));
+                mn_props nocall:view/metnav_properties;
+                href_blank mn_props/HREF_BLANK | python:True;
+                limit view/data/count | python:5;
+                leadImage view/data/enableLeadImage;
+                icones context/icones;
+                related python:view.related(meta_url, nb_limit=limit)[:limit]"
+                tal:condition="related">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span i18n:translate="box_related">Voir aussi</span>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem">
+             <tal:sansSlider tal:condition="python:leadImage=='Sans vignette'"> <div tal:repeat="obj related">
+                    <span tal:repeat="img python:context.getRscIcon(str(obj['res/type'][0]))">
+                    <img src="" alt="" style="border: 0"
+                         tal:attributes="src string:${context/portal_url}/icones/${img};
+                                         alt img;
+                                         title python:str(img.split('.')[0]);"/>
+
+                    </span>
+                    <span tal:condition="python:obj['res/url'][0].find('/profs/')!=-1 or obj['res/url'][0].find('/article-pro/')!=-1">
+                        <img src="" alt="accès restreint" tal:attributes="src string:${context/portal_url}/icones/lock_icon.gif"/>
+                    </span>
+                    <a href=""  tal:condition="python:obj['res/url'][0].find('/XML/db/')==-1 and href_blank==True" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]" target="_blank">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+                    </a>
+                    
+                    <a href=""  tal:condition="python:obj['res/url'][0].find('/XML/db/')==-1 and href_blank==False" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+                    </a>
+                    <a href=""  tal:condition="python:obj['res/url'][0].find('/XML/db/')!=-1" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+                    </a> -
+                    <span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"></span>
+              </div></tal:sansSlider>         
+              <tal:avecSlider tal:condition="python:leadImage=='Avec Slider'">
+			<div id="amazingcarousel-container-7">
+				<div id="amazingcarousel-7" style="display:block;position:relative;width:100%;max-width:1000px;margin:0px auto 0px;">
+					<div class="amazingcarousel-list-container">
+						<ul class="amazingcarousel-list">
+							<tal:block tal:repeat="obj related">
+								<li class="amazingcarousel-item">
+									<div class="amazingcarousel-item-container">
+										<div class="amazingcarousel-image">
+											<a tal:attributes="href python:obj['res/url'][0];"> <div class="carousel-bg" tal:condition="python:obj.has_key('res/urlLeadImage')" tal:attributes="style python:'background:url(\''+obj['res/urlLeadImage'][0]+'\') left top no-repeat'"><img height="170" width="240" src="spacer.png" tal:attributes="src string:${context/portal_url}/spacer.png"></div>
+											<div class="amazingcarousel-title" tal:content="python:obj['res/title'][0]"/>
+											<div class="amazingcarousel-description" tal:content="python:context.cropText(obj['res/description'][0], 350)"/>
+											</a>
+											
+										</div>
+									</div>
+								</li>
+							</tal:block>
+						</ul>
+						<!--tal:block tal:condition="python:len(related)>4"-->
+					    <div class="amazingcarousel-prev"></div>
+						<div class="amazingcarousel-next"></div><!--/tal:block-->
+					</div>
+					<div class="amazingcarousel-engine" style="display:none;"><a href="http://amazingcarousel.com" >JavaScript Carousel</a></div>
+				</div>
+			</div>
+			<script type='text/javascript' src='jquery-carousel.js' tal:attributes="src string:${context/portal_url}/jquery.js"></script>
+			<script type="text/javascript" tal:attributes="src string:${context/portal_url}/amazing-carouselinit.js"></script>
+			<script type="text/javascript" tal:attributes="src string:${context/portal_url}/amazing-carousel.js"></script>
+              </tal:avecSlider>
+
+    </dd>
+</dl></tal:block>

@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="metnav">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<div metal:fill-slot="main"
+    tal:define="year request/year | string:2007;
+                res python:view.list_semaine(year=year, output='table')">
+
+    <h1 i18n:translate="heading_semaine_index">Objets de la semaine</h1>
+
+
+    <div tal:content="structure python:view.annee_semaine(year=year, template_url=view.absolute_url())">liste des années</div>
+
+    <div tal:condition="not:res">
+        <p>
+            <strong i18n:translate="description_no_results_found">No results were found.</strong>
+        </p>
+    </div>
+
+
+    <div tal:condition="res">
+
+        <h2 tal:content="string: Année ${year}">2001</h2>
+        <tal:block tal:replace="structure res">results</tal:block>
+
+    </div>
+</div>
+
+
+</html>

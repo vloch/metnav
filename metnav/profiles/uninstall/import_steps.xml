@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<import-steps>
+
+ <import-step
+    id="metnav.metnav.unistall"
+    handler="metnav.setuphandlers.importFinalSteps"
+    title="metnav : Various cleanup to be done when removing the product."
+    version="2013-02-07">
+   uninstall for metnav
+ </import-step>
+
+</import-steps>

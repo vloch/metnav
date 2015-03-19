@@ -1,0 +1,5 @@
+setuptools
+pisa
+reportlab
+html5lib
+z3c.form

@@ -1,0 +1,17 @@
+<dl class="portlet portletSerieRelated"
+    id="portlet-serie-related"
+    i18n:domain="plone"
+    tal:condition="python:request.has_key('url') or '/XML/' in request['PATH_TRANSLATED']">
+
+    <div tal:omit-tag=""
+         tal:condition="python:str(lien_dossier).strip() != ''"
+         tal:define="url python:str(request['PATH_TRANSLATED'].split('/XML')[1]);
+                     lien_dossier python:view.test(url)">
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span>Dossier thématique</span>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem" tal:content="structure lien_dossier">dossier</dd>
+    </div>
+</dl>

@@ -1,0 +1,11 @@
+@@ -28,5 +28,9 @@
+                         ('here/portlet_review/macros/portlet', 'review'),
+                         ('here/portlet_news/macros/portlet', 'news'),
+                         ('here/portlet_events/macros/portlet', 'events'),
+-                        ('here/portlet_calendar/macros/portlet', 'calendar'))
++                        ('here/portlet_calendar/macros/portlet', 'calendar'),
++                        ('here/portlet_classification/macros/portlet', 'classification'),
++                        ('here/portlet_hasard/macros/portlet', 'hasard'),
++                        ('here/portlet_objects/macros/portlet', 'objects'),
++                        ('here/portlet_semaine/macros/portlet', 'semaine'),)
+ 

@@ -1,0 +1,29 @@
+xquery version "%(xquery_version)s";
+declare default collation "?lang=fr-FR;strength=primary;decomposition=none";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+
+for $res in $COLLECTIONS/lom:lom$TYPES$TAGSTOQUERY$SEARCHABLETEXT[lom:lifeCycle/lom:contribute[lom:role/lom:value='publisher']//lom:dateTime <= adjust-date-to-timezone(current-date(),())]
+let $title       := $res/lom:general/lom:title/lom:string/text(),
+    $description := $res/lom:general/lom:description/lom:string/text(),
+    $author := string-join(distinct-values($res/lom:lifeCycle/lom:contribute[lom:role/lom:value = "author"]/lom:entity),"| "),
+    $date        := $res/lom:lifeCycle/lom:contribute[lom:role/lom:value='publisher']/lom:date/lom:dateTime/text(),
+    $url   := normalize-space($res/%(resource_url)s),
+    $url_img := normalize-space($res//lomfrens:ensDocumentLabel/text()),
+    $acad        := $res/lom:lifeCycle/lom:contribute[lom:role/lom:value = "publisher"]/lom:entity/text(),
+    $type        := string-join(distinct-values($res/lomfrens:ensData/lomfrens:ensDocumentType/lomfrens:value/text()),", "),
+    $score:= 0.001 + ft:score($res)
+
+order by $score descending, $date descending, $title ascending empty least
+return
+  <res>
+    <title>{$title}</title>
+    <description>{$description}</description>
+    <author>{$author}</author>
+    <pubdate>{$date}</pubdate>
+    <type>{$type}</type>
+    <url>{$url}</url>
+    <urlLeadImage>{$url_img}</urlLeadImage>
+    <publisher>{$acad}</publisher>
+    <score>{if ($score > 100) then 100 else $score}</score>
+  </res>

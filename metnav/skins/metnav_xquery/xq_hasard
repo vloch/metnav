@@ -1,0 +1,21 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace db="http://docbook.org/ns/docbook";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+
+let $loms := collection("%(COLLECTION)s")/lom:lom %(CONDITION_BASE)s%(CONDITION_SUP)s,
+    $nb := count($loms),
+    $random := round(util:random() * $nb) + 1,
+        $res := $loms[$random],
+        $url   := normalize-space($res/%(resource_url)s),
+        $url_img := normalize-space($res//lomfrens:ensDocumentLabel/text()),
+        $description := normalize-space(replace($res/lom:general/lom:description/lom:string/text(), '&#xA;', ' ')),
+        $titre := normalize-space($res/lom:general/lom:title/lom:string/text())
+return
+    <dd class="portletItem odd">
+        <a href="{$url}" title="{$titre}">
+            <div style="background:url('{$url_img}') left top no-repeat;" class="ImageBg">
+
+          <p class="portletImageTitle">{$titre}</p></div>
+        </a>
+    </dd>

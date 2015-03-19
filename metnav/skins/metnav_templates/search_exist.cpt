@@ -1,0 +1,808 @@
+<html metal:use-macro="here/main_template/macros/master">
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<metal:slot>
+    <div id="content">
+      <metal:header tal:content="nothing">
+        Visual Header
+      </metal:header>
+      <div id="search-exist"
+           metal:fill-slot="main"
+           tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+   normalizeString nocall:context/@@plone/normalizeString;
+   toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+   getToolByName python:modules['Products.CMFCore.utils'].getToolByName;
+   mn_props python:getToolByName(context, 'portal_properties').metnav_properties;
+   href_blank python:mn_props.getProperty('HREF_BLANK') or True;
+   isAnon context/@@plone_portal_state/anonymous;
+   DateTime python:modules['DateTime'].DateTime;
+   getToolByName python:modules['Products.CMFCore.utils'].getToolByName;
+   catalog python:getToolByName(context, 'portal_catalog');
+   b_size python:30;b_start python:0;b_start request/b_start | b_start;
+   desc_length site_properties/search_results_description_length;
+   desc_ellipsis site_properties/ellipsis;
+   service request/service|nothing;
+   searchterm request/SearchableText|python:'';
+   searchterm python:unicode(searchterm.strip()).encode('utf-8');
+   searchterm python:' '.join(searchterm.split());
+   searchterm python: service == 'cumulus' and searchterm.decode('latin1').encode('utf8') or searchterm;
+   title request/Title | python:'';
+   keyword request/Subject | python:'';
+   description request/Description | python:'';
+   creator request/Creator | python:'';
+   parDate request/parDate | python:'';
+   choixCritere request/criterePourDate | python:0;
+   contributeur request/Contributeur | python:'';
+   data_type request/meta_type | python:[];
+   fuzzy python:0;
+   se context/@@SearchExist;
+   results python:se.search(SearchableText=searchterm, fuzzy=int(fuzzy), title=title, description=description, creator=creator, contributeur=contributeur, data_type=data_type, parDate=parDate, choixCritere=choixCritere);
+
+   use_types_blacklist request/use_types_blacklist | python:True;
+   use_navigation_root request/use_navigation_root | python:True;
+   resultsPlone python:here.queryCatalog(REQUEST=request,use_types_blacklist=use_types_blacklist, use_navigation_root=use_navigation_root);
+   desc_length site_properties/search_results_description_length;
+   desc_ellipsis site_properties/ellipsis;
+   use_view_action site_properties/typesUseViewActionInListings|python:();
+   searchType python:context.REQUEST.form.get('type_ressources') or 'search_exist';">
+
+    <div id="content-title">
+        <span class="titleLeft"></span>
+        <h1 class="documentFirstHeading"
+            i18n:translate="heading_search_results">R&eacute;sultats de la recherche</h1>
+        <span class="titleRight"></span>
+    </div>
+
+    <div tal:condition="python:searchType=='search_exist'">
+    <div class="criteresSearch">
+        <h4>Critères de votre recherche</h4>
+        <form action="search_exist"  method="get" name="search"
+            tal:define="DateTime python:modules['DateTime'].DateTime;
+                      objPeda python:mn_props.getProperty('OBJECTS')[1:];
+                      objMedia python:mn_props.getProperty('MEDIAS')[1:];">
+            <fieldset>
+                <ul>
+                    <li>Mot(s) clé(s) :
+                        <span tal:condition="python:title=='' and description=='' and searchterm !=''"> 
+                            <input name="SearchableText"
+                               type="text"
+                               size="18"
+                               value=""
+                               title="Recherche des ressources"
+                               tal:define="service request/service|nothing;
+                                           value request/SearchableText|nothing;"
+                               tal:attributes="value python:service == 'cumulus' and value.decode('latin1').encode('utf8') or value;"
+                               class="inputLabel" />
+                        </span>
+                        <span tal:condition="python:title!='' and description==''" tal>
+                            <span tal:content="structure string:<b>${title}</b>"></span>, dans les titres des ressources
+                        </span>
+                        <span tal:condition="python:title=='' and description!=''" tal>
+                            <span tal:content="structure string:<b>${description}</b>"></span>, dans les descriptions des ressources
+                        </span>
+                        <span tal:condition="python:title!='' and description!=''" tal>
+                            <span tal:content="structure string:<b>${title}</b> et <b>${description}</b>"></span>, dans les titres et descriptions des ressources
+                        </span>
+                    </li>
+                    <li>Types de ressources :
+                        <span class="optionsToggle">
+                            <input type="checkbox"
+                                   onclick="javascript:toggleSelect(this, 'meta_type:list', true);"
+                                   name="pt_toggle"
+                                   value="#"
+                                   id="pt_toggle"
+                                   class="noborder"
+                                   checked="checked"/>
+                            <label for=""
+                                   i18n:translate="label_toggle"
+                                   tal:attributes="for string:pt_toggle"
+                                   >Select All/None
+                            </label>
+                        </span><br />
+                        <tal:contenttypes repeat="typePeda objPeda">
+                        <div tal:define="TypePedaLom python:typePeda.split('=')[1];
+                             TypePedaVu python:typePeda.split('=')[0];">
+                                <tal:tabindex define="tabindex repeat/typePeda/index">
+                                
+                                <input type="checkbox"
+                                       name="meta_type:list"
+                                       value="#"
+                                       class="noborder"
+                                       tal:attributes="value TypePedaLom;
+                                                       checked python:context.testTypesChecked(TypePedaLom);
+                                                       id string:meta_type_peda${tabindex}"/>
+                                <label for=""
+                                       i18n:translate=""
+                                       tal:attributes="for string:meta_type_peda${tabindex}"
+                                       tal:content="TypePedaVu"
+                                       />
+                                <br />
+                                </tal:tabindex>
+                            </div>
+                        </tal:contenttypes>
+
+                        <tal:contenttypes repeat="typeMedia objMedia">
+                            <div tal:define="typeMediaLom python:typeMedia.split('=')[1];
+                             typeMediaVu python:typeMedia.split('=')[0];">
+                                <tal:tabindex define="tabindex repeat/typeMedia/index">
+                                <input type="checkbox"
+                                       name="meta_type:list"
+                                       value="#"
+                                       class="noborder"
+                                       tal:attributes="value typeMediaLom;
+                                                       checked python:context.testTypesChecked(typeMediaLom);
+                                                       id string:meta_type_peda${tabindex}"/>
+                                <label for=""
+                                       i18n:translate=""
+                                       tal:attributes="for string:meta_type_media${tabindex}"
+                                       tal:content="typeMediaVu"
+                                       />
+                                <br />
+                                </tal:tabindex>
+                            </div>
+                        </tal:contenttypes>
+                    </li>
+                    <li tal:define="x python:['durant cette année', 'avant et durant cette année', 'depuis cette année'];
+                                indice python:int(choixCritere);
+                                critere python:x[indice]">Date :
+                        <input type="text"
+                           id="parDate"
+                           name="parDate"
+                           size="20"
+                           value=""
+                           tal:attributes="value request/parDate | nothing"
+                           onkeydown="javascript:afficherChoix();"
+                            /> <br/>
+                        <div id="choixCriteres">
+                            <input type="radio" name="criterePourDate" checked value="0" /> Durant l'année saisie.<br/>
+                            <input type="radio" name="criterePourDate" value="1" /> Avant et durant l'année saisie.<br/>
+                            <input type="radio" name="criterePourDate" value="2" />  Depuis l'année saisie.<br/>
+                        </div>
+                    </li>
+                    <li>Auteur :
+                        <input name="Creator"
+                               id="Creator"
+                               type="text"
+                               size="20"
+                               tal:attributes="value creator | nothing"/>
+                    </li>
+                    <li>Contributeur :
+                        <input name="Contributeur"
+                               id="Contributeur"
+                               type="text"
+                               size="20"
+                               tal:attributes="value contributeur | nothing"/>
+                    </li>
+                </ul>
+                <div class="formControls">
+                    <input class="context"
+                           type="submit"
+                           name="submit"
+                           value="Search"
+                           i18n:domain="plone"
+                           i18n:attributes="value"/>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div tal:condition="not: results">
+        <p>
+            <strong i18n:translate="description_no_results_found">La recherche n'a donn&eacute; aucun r&eacute;sultat.</strong>
+            <span tal:condition="python:int(request.form.get('fuzzy', -1)) == 0">
+                <tal:block tal:define="dummy python:request.RESPONSE.redirect(template.id +'?SearchableText=' + searchterm)"></tal:block>
+            </span>
+        </p>
+    </div>
+
+    <div id="advanced-search-link">
+        Avez-vous trouv&eacute; ce que vous cherchiez ? Effectuez la
+        <a href=""
+           tal:attributes="href string:$portal_url/search_exist_form">recherche avanc&eacute;e</a>
+         pour des crit&egrave;res de recherche plus pr&eacute;cis.
+    </div>
+
+    <tal:block tal:condition="results"
+         tal:define="batch python:Batch(results, b_size, int(b_start), orphan=1);
+                     nb_res python:len(results)">
+        <div class="resultNumber">
+                <span i18n:domain="plone" i18n:translate="batch_x_items_matching_your_criteria"><span i18n:name="number" tal:content="structure string:<b>${nb_res}</b>">234</span> items matching your criteria.</span>
+        </div>
+
+         <!-- Navigation -->
+        <div class="listingBar"
+             metal:use-macro="here/batch_macros/macros/navigation"
+             tal:define="request request|here/request|container/request|nothing;
+                 batch batch|nothing;
+                 template_id template_id|template/getId;
+                 mq python:modules['ZTUtils'].make_query;
+                 url batch_base_url | string:${here/absolute_url}/${template_id};
+                 currentpage batch/pagenumber;"
+             tal:condition="python: batch.next or  batch.previous">
+
+    <span class="previous"
+          tal:define="p batch/previous | nothing"
+          tal:condition="p">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ))">
+           &laquo;
+           <span i18n:translate="batch_previous_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="p/length">n</span> &eacute;l&eacute;ments pr&eacute;c&eacute;dents</span>
+        </a>
+    </span>
+
+    <span class="next" tal:define="n batch/next | nothing"
+          tal:condition="n">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+           <span i18n:translate="batch_next_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="n/length">n</span> &eacute;l&eacute;ments suivants</span>
+           &raquo;
+        </a>
+    </span>
+
+    <!-- Link to first -->
+    <span tal:condition="python: 1 not in batch.navlist">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+        <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
+              tal:omit-tag="">
+           &hellip;
+        </span>
+    </span>
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
+          tal:condition="batch/leapback" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+        &hellip;
+    </span>
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.prevurls(request.form)"
+          tal:condition="batch/prevlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Current page -->
+    <span tal:condition="batch/navlist" class="current"
+          tal:content="batch/pagenumber">Current page number</span>
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.nexturls(request.form)"
+          tal:condition="batch/nextlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
+          tal:condition="batch/leapforward" tal:omit-tag="">
+        &hellip;
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Link to last -->
+    <span tal:condition="python:batch.numpages not in batch.navlist">
+        <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
+              tal:omit-tag="">
+        &hellip;
+        </span>
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
+           tal:content="batch/numpages">3457</a>
+    </span>
+
+</div>
+
+        <!-- Search results -->
+        <div class="listeResults">
+        <dl>
+        <tal:results repeat="result batch">
+        <tal:entry define="result_url python:result['res/url'][0];
+                           url string:$result_url;
+                           typesRs python:context.getRscIcon(str(result['res/type'][0]));">
+            <dt>
+                <span tal:repeat="img typesRs">
+                <img src=""
+                     tal:attributes="src string:${context/portal_url}/icones/${img};
+                             alt img;
+                             title python:img.split('.')[0]" />
+                </span>
+                        <ta:block
+    tal:replace="structure python:se.getLockedIconTag(url=result['res/url'][0])"/>
+             
+    <a href="#" target="_blank" tal:condition="python:href_blank==True"
+    tal:attributes="href url"
+    tal:content="python:result['res/title'][0]"></a>
+    <a href="#" tal:condition="python:href_blank==False"
+    tal:attributes="href url"
+    tal:content="python:result['res/title'][0]"></a>
+    <!--div
+    tal:omit-tag=""
+    tal:condition="python:result.has_key('res/publisher')"
+    tal:content="python:' (' + context.getPublisher(result['res/publisher'][0]) + ')'"></div-->
+
+<span tal:condition="python:creator!='' or contributeur!='' or data_type !=[] or parDate!=''">
+                      <span class="discreet"
+                            title="Relevance"
+                            i18n:translate="label_relevance_percentage"
+                            i18n:attributes="title">[<span i18n:name="percentage">100</span> %]</span>
+</span>
+<span tal:condition="python:searchterm!='' and creator=='' and contributeur=='' and data_type ==[] and parDate==''">
+                <span class="discreet" title="Relevance"
+                      tal:condition="python:result['res/score'][0]"
+                      tal:define="scoreMax python:float(results[0]['res/score'][0])"
+                      i18n:translate="label_relevance_percentage"
+                      i18n:attributes="title">[<span tal:replace="python:int(float(result['res/score'][0]) * 100/scoreMax)" i18n:name="percentage">23%</span> %]</span>
+</span>
+
+                <span class="discreet">
+
+                par <span tal:repeat="auteur python:context.getAuteurs(result['res/author'][0])"
+                          tal:content="python:auteur+', '"></span>
+                publi&eacute; le <span
+    tal:condition="python:result.has_key('res/pubdate')"
+    tal:replace="python:here.toLocalizedTime(result['res/pubdate'][0], long_format=0)">Modification Date</span>
+                </span>
+
+            </dt>
+
+            <dd tal:content="python:result.get('res/description', [''])[0]"> Description </dd>
+
+        </tal:entry>
+        </tal:results>
+        </dl>
+        </div>
+
+        <!-- Navigation -->
+        <div class="listingBar"
+             metal:use-macro="here/batch_macros/macros/navigation"
+             tal:define="request request|here/request|container/request|nothing;
+                 batch batch|nothing;
+                 template_id template_id|template/getId;
+                 mq python:modules['ZTUtils'].make_query;
+                 url batch_base_url | string:${here/absolute_url}/${template_id};
+                 currentpage batch/pagenumber;"
+             tal:condition="python: batch.next or  batch.previous">
+
+    <span class="previous"
+          tal:define="p batch/previous | nothing"
+          tal:condition="p">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ))">
+           &laquo;
+           <span i18n:translate="batch_previous_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="p/length">n</span> &eacute;l&eacute;ments pr&eacute;c&eacute;dents</span>
+        </a>
+    </span>
+
+    <span class="next" tal:define="n batch/next | nothing"
+          tal:condition="n">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+           <span i18n:translate="batch_next_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="n/length">n</span> &eacute;l&eacute;ments suivants</span>
+           &raquo;
+        </a>
+    </span>
+
+    <!-- Link to first -->
+    <span tal:condition="python: 1 not in batch.navlist">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+        <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
+              tal:omit-tag="">
+           &hellip;
+        </span>
+    </span>
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
+          tal:condition="batch/leapback" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+        &hellip;
+    </span>
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.prevurls(request.form)"
+          tal:condition="batch/prevlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Current page -->
+    <span tal:condition="batch/navlist" class="current"
+          tal:content="batch/pagenumber">Current page number</span>
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.nexturls(request.form)"
+          tal:condition="batch/nextlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
+          tal:condition="batch/leapforward" tal:omit-tag="">
+        &hellip;
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Link to last -->
+    <span tal:condition="python:batch.numpages not in batch.navlist">
+        <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
+              tal:omit-tag="">
+        &hellip;
+        </span>
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
+           tal:content="batch/numpages">3457</a>
+    </span>
+
+</div>
+
+    </tal:block>
+    </div>
+    <div tal:condition="python:searchType=='search'">
+        <p class="discreet"
+           i18n:translate="search_results_advanced">Avez-vous trouv&eacute; ce que vous cherchiez ? Essayez la <span i18n:name="advanced_search"> <a href="" i18n:translate="search_results_advanced_link" tal:define="search_query request/SearchableText|string:" tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/search_form?SearchableText=${search_query}">recherche avanc&eacute;e</a> </span> pour des crit&egrave;res de recherche plus pr&eacute;cis.</p>
+        <p>
+        <strong>
+            <span>
+                <span i18n:translate="batch_x_items_matching_your_criteria">Il y a <span i18n:name="number" tal:omit-tag="" tal:content="python:len(resultsPlone)">234</span> &eacute;l&eacute;ments qui correspondent &agrave; vos termes de recherche.</span>
+            </span>
+ <span tal:condition="python:searchterm != ''"
+       tal:content="string: - Mot(s) cl&eacute;(s) : ${searchterm}"></span>
+            <!--span tal:condition="python:title != ''" tal:content="string: - ${title}"></span>
+            <span tal:condition="python:description != ''" tal:content="string: - ${description}"></span>
+            <span tal:condition="python:creator != ''" tal:content="string: - ${creator}"></span>
+            <span tal:condition="python:contributeur != ''" tal:content="string: - ${contributeur}"></span>
+            <span tal:condition="python:len(data_type) != 0" tal:repeat="type data_type" tal:content="string:${type}, "></span-->.
+        </strong>
+</p>
+        <div tal:condition="not: resultsPlone">
+            <p><strong i18n:translate="description_no_results_found">La recherche n'a donn&eacute; aucun r&eacute;sultat.</strong></p>
+        </div>
+
+        <div tal:condition="resultsPlone"
+             tal:define="batch python:Batch(resultsPlone, b_size, int(b_start), orphan=1);">
+
+            <div class="listingBar"
+                 metal:use-macro="here/batch_macros/macros/navigation"
+                 tal:define="request request|here/request|container/request|nothing;
+                 batch batch|nothing;
+                 template_id template_id|template/getId;
+                 mq python:modules['ZTUtils'].make_query;
+                 url batch_base_url | string:${here/absolute_url}/${template_id};
+                 currentpage batch/pagenumber;"
+                 tal:condition="python: batch.next or  batch.previous">
+
+    <span class="previous"
+          tal:define="p batch/previous | nothing"
+          tal:condition="p">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ))">
+           &laquo;
+           <span i18n:translate="batch_previous_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="p/length">n</span> &eacute;l&eacute;ments pr&eacute;c&eacute;dents</span>
+        </a>
+    </span>
+
+    <span class="next" tal:define="n batch/next | nothing"
+          tal:condition="n">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+           <span i18n:translate="batch_next_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="n/length">n</span> &eacute;l&eacute;ments suivants</span>
+           &raquo;
+        </a>
+    </span>
+
+    <!-- Link to first -->
+    <span tal:condition="python: 1 not in batch.navlist">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+        <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
+              tal:omit-tag="">
+           &hellip;
+        </span>
+    </span>
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
+          tal:condition="batch/leapback" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+        &hellip;
+    </span>
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.prevurls(request.form)"
+          tal:condition="batch/prevlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Current page -->
+    <span tal:condition="batch/navlist" class="current"
+          tal:content="batch/pagenumber">Current page number</span>
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.nexturls(request.form)"
+          tal:condition="batch/nextlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
+          tal:condition="batch/leapforward" tal:omit-tag="">
+        &hellip;
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Link to last -->
+    <span tal:condition="python:batch.numpages not in batch.navlist">
+        <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
+              tal:omit-tag="">
+        &hellip;
+        </span>
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
+           tal:content="batch/numpages">3457</a>
+    </span>
+
+</div>
+
+            <dl class="searchResults">
+            <tal:resultsplone repeat="result batch">
+            <tal:entry define="result_url result/getURL;
+                               result_type result/portal_type;
+                               item_icon python:plone_view.getIcon(result);
+                               url python:'%s?searchterm=%s'%(test(result_type in use_view_action, result_url+'/view', result_url+'/'), searchterm);">
+                <dt tal:define="item_wf_state_class string:state-${result/review_state};"
+                    tal:attributes="class python:'contenttype-' + normalizeString(result.portal_type)">
+                    <img tal:replace="structure item_icon/html_tag" />
+                    <a href="#"
+                       tal:attributes="href url;
+                                     class string:$item_wf_state_class"
+                       tal:content="result/pretty_title_or_id"></a>
+                </dt>
+
+                <dd>
+                    <span tal:replace="python:context.cropText(result.Description, 500)">
+                        Cropped description
+                    </span>
+
+                    <span class="documentByLine"
+                          tal:condition="python:not isAnon or site_properties.allowAnonymousViewAbout">
+                        <span class="documentAuthor"
+    i18n:translate="label_by_author">Par <a href="#" tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${result/Creator}" tal:content="result/Creator" tal:omit-tag="not:result/Creator" i18n:name="author"> Bob Dobalina </a></span>
+
+                    <span class="documentModified">
+                      &mdash;
+                        <span
+    i18n:translate="box_last_modified">Derni&egrave;re modification</span>
+                        <span
+    tal:replace="python:toLocalizedTime(result.ModificationDate, long_format=1)">
+                        August 16, 2001 at 23:35:59
+                        </span>
+                    </span>
+
+
+                    <span tal:define="categories result/Subject|nothing"
+                          tal:condition="categories">
+                        &mdash;
+                        <tal:filedunder
+    i18n:translate="label_filed_under">Mots-cl&eacute;s associ&eacute;s :</tal:filedunder>
+                            <span
+    tal:repeat="category categories">
+                                <a href=""
+    class="link-category" rel="tag" tal:content="category"
+    tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category}">
+                                   Category
+                                </a><tal:separator
+    condition="not: repeat/category/end">,</tal:separator>
+                            </span>
+                    </span>
+
+                    <span class="relevance"
+                          tal:condition="result/data_record_normalized_score_">
+                        &mdash;
+                        <tal:relevance
+    i18n:translate="label_relevance_percentage">[<span tal:content="result/data_record_normalized_score_" tal:omit-tag="" i18n:name="percentage">23</span> %]</tal:relevance>
+                            </span>
+                    </span>
+
+                </dd>
+
+            </tal:entry>
+            </tal:resultsplone>
+            </dl>
+
+            <div class="listingBar"
+                 metal:use-macro="here/batch_macros/macros/navigation"
+                 tal:define="request request|here/request|container/request|nothing;
+                 batch batch|nothing;
+                 template_id template_id|template/getId;
+                 mq python:modules['ZTUtils'].make_query;
+                 url batch_base_url | string:${here/absolute_url}/${template_id};
+                 currentpage batch/pagenumber;"
+                 tal:condition="python: batch.next or  batch.previous">
+
+    <span class="previous"
+          tal:define="p batch/previous | nothing"
+          tal:condition="p">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:p.first} ))">
+           &laquo;
+           <span i18n:translate="batch_previous_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="p/length">n</span> &eacute;l&eacute;ments pr&eacute;c&eacute;dents</span>
+        </a>
+    </span>
+
+    <span class="next" tal:define="n batch/next | nothing"
+          tal:condition="n">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url , mq( request.form, {batch.b_start_str:n.first} ))">
+           <span i18n:translate="batch_next_x_items"
+                 tal:omit-tag=""><span i18n:name="number" tal:omit-tag="" tal:content="n/length">n</span> &eacute;l&eacute;ments suivants</span>
+           &raquo;
+        </a>
+    </span>
+
+    <!-- Link to first -->
+    <span tal:condition="python: 1 not in batch.navlist">
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url, batch.pageurl(request.form,1));">1</a>
+        <span tal:condition="python: 2 not in (batch.prevlist or batch.leapback)"
+              tal:omit-tag="">
+           &hellip;
+        </span>
+    </span>
+
+    <!-- Pagelist with quantum leap links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapback)"
+          tal:condition="batch/leapback" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+        &hellip;
+    </span>
+
+    <!-- Pagelist with links to previous pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.prevurls(request.form)"
+          tal:condition="batch/prevlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Current page -->
+    <span tal:condition="batch/navlist" class="current"
+          tal:content="batch/pagenumber">Current page number</span>
+
+    <!-- Pagelist with links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.nexturls(request.form)"
+          tal:condition="batch/nextlist" tal:omit-tag="">
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Pagelist with quantum leap links to next pages for quick navigation -->
+    <span tal:repeat="linklist python:batch.navurls(request.form, batch.leapforward)"
+          tal:condition="batch/leapforward" tal:omit-tag="">
+        &hellip;
+        <a href=""
+           tal:define="page python:linklist[0];
+                       query python:linklist[1];"
+           tal:content="page"
+           tal:attributes="href python: '%s?%s' % (url,query)">
+        </a>
+    </span>
+
+    <!-- Link to last -->
+    <span tal:condition="python:batch.numpages not in batch.navlist">
+        <span tal:condition="python: batch.numpages - 1 not in (batch.nextlist or batch.leapforward)"
+              tal:omit-tag="">
+        &hellip;
+        </span>
+        <a href=""
+           tal:attributes="href python: '%s?%s' % (url,batch.pageurl(request.form,batch.numpages));"
+           tal:content="batch/numpages">3457</a>
+    </span>
+
+</div>
+        </div>
+
+    </div>
+
+</div>
+    </div>
+</metal:slot>
+</html>
+<script type="text/javascript">
+var block=document.getElementById('choixCriteres');
+block.style.display='none';
+function afficherChoix(){
+       var block=document.getElementById('choixCriteres');
+       var btnsRadio=document.getElementsByName('criterePourDate');
+       var anneeSaisie=document.getElementById('parDate').value;
+       //alert(anneeSaisie);     
+   if (anneeSaisie!=''){
+        block.style.display='block';
+        /*btnsRadio[0].value='='+anneeSasie;
+        btnsRadio[1].value='<='+anneeSasie;
+        btnsRadio[2].value='>='+anneeSasie;*/
+     }
+    else {
+        block.style.display='none';
+    }
+}
+</script>

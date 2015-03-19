@@ -1,0 +1,131 @@
+(:: Base functions for the MetNav product ::)
+
+module namespace mn="http://namespaces.ens-lyon.fr/metnav";
+
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+declare namespace db="http://docbook.org/ns/docbook";
+
+declare function mn:getPremiereImage($resource){
+  let $location := $resource/lom:technical/lom:location/text(),
+      $url_imgs := doc($location)/db:article//db:imageobject,
+      $url_img  := $url_imgs[1]/db:imagedata/@fileref,
+      $titre := normalize-space($resource/lom:general/lom:title/lom:string/text())
+
+  return
+      if (exists($url_img))
+        then
+          if (contains($url_img, '/thumb?'))
+            then
+              <img src="{substring-before($url_img[1],'/thumb?')}/image_thumb?width=150" alt="{$titre}"/>
+            else
+              <img src="{$url_img[1]}/image_mini" alt="{$titre}"/>
+       else
+         <span></span>
+};
+
+declare function mn:getLockedIconTag($url) {
+  if (contains($url, 'acces_pro') or contains($url, 'reserve') or contains($url, 'data/profs/') or contains($url, 'telechargements_profs'))
+  then
+    <img src="lock_icon.gif" alt="reserve"/>
+  else
+    ""
+};
+
+declare function mn:getDocIconTag($resource) {
+  let $local:rsctype  := string-join(distinct-values($resource/lomfrens:ensData/lomfrens:ensDocumentType/lomfrens:value/text()), ", "),
+      $local:types := tokenize ($local:rsctype, ", ")
+  return
+      for $type in $local:types
+      return
+      if ($type = 'article')
+        then
+        <img src="%(site_url)s/icones/article.png" alt="article.png" title="article"/>
+      else
+             if ($type = 'dossier')
+             then
+             <img src="%(site_url)s/icones/dossier.png" alt="dossier.png" title="dossier"/>
+        else
+             if ($type = 'question')
+             then
+             <img src="%(site_url)s/icones/question.png" alt="question.png" title="question"/>
+        else
+             if ($type = 'diaporama')
+             then
+             <img src="%(site_url)s/icones/diaporama.png" alt="diaporama.png" title="diaporama"/>
+        else
+              if ($type = 'texte')
+             then
+              <img src="%(site_url)s/icones/texte.png" alt="texte.png" title="texte"/>
+           else
+              if ($type = 'son')
+             then
+              <img src="%(site_url)s/icones/son.png" alt="son.png" title="son"/>
+           else
+              if ($type = 'exercice')
+             then
+              <img src="%(site_url)s/icones/exercice.png" alt="exercice.png" title="exercice"/>
+           else
+              if ($type = 'simulation')
+             then
+             <img src="%(site_url)s/icones/simulation.png" alt="simulation.png" title="simulation"/>
+           
+           else
+              if ($type = 'image')
+             then
+              <img src="%(site_url)s/icones/type-image.png" alt="type-image.png" title="image"/>
+           else
+              if ($type = 'albumImage')
+             then
+              <img src="%(site_url)s/icones/albumimage.png" alt="albumimage.png" title="albumimage"/>
+          else
+              if ($type = 'vidéo')
+             then
+              <img src="%(site_url)s/icones/type-video.png" alt="type-video.png" title="video"/>
+         else
+              if ($type = 'conférence')
+             then
+              <img src="%(site_url)s/icones/conference.png" alt="conference.png" title="conference"/>
+         else
+              if ($type = 'téléchargement')
+             then
+               <img src="%(site_url)s/icones/telechargement.png" alt="telechargement.png" title="telechargement"/>
+         else
+              if ($type = 'expérience')
+             then
+               <img src="%(site_url)s/icones/experience.png" alt="experience.png" title="experience"/>
+         else
+              if ($type = 'lienVersUnAutreSite')
+             then
+               <img src="%(site_url)s/icones/lienversunautresite.png" alt="lienVersUnAutreSite" title="lienVersUnAutreSite"/>
+        else
+            ""
+};
+
+declare function mn:getHTTPURLFromMeta($resource) {
+  let $local:mimetype := $resource/lom:technical/lom:format/text(),
+      $local:uri      := $resource/lom:technical/lom:location/text(),
+      $local:rsctype  := $resource/lom:educational/lom:learningResourceType/lom:value/text()
+  return
+    if (starts-with($local:uri, 'xmldb:exist://'))
+    then
+      concat('%(URL_DOC)s', document-uri(root($resource)))
+    else
+      $resource/lom:technical/lom:location/text()
+};
+
+declare function mn:getFormattedDate($date){
+  if (string-length($date) = 10)
+  then
+    concat(" le ", day-from-date($date), "/", month-from-date($date), "/" ,year-from-date($date))
+  else
+    if (string-length($date) = 7)
+    then
+      concat(" en ", substring-after($date, '-'), "/" , substring-before($date, '-'))
+    else
+      if (string-length($date) = 4)
+      then
+        concat(" en ", $date)
+      else
+        ""
+};

@@ -1,0 +1,55 @@
+<div id="portal-searchbox"
+     i18n:domain="plone">
+    <form name="searchform"
+          action="search"
+          tal:define="searchType
+python:context.REQUEST.get('type_ressources') or 'search_exist'"
+          tal:attributes="action string:${view/site_url}/${searchType}">
+
+        <label for="searchGadget" class="hiddenStructure"
+                    i18n:translate="text_search">Search Site</label>
+
+        <div class="LSBox">
+        <input name="SearchableText"
+               type="text"
+               size="18"
+               value=""
+               title="Search Site"
+               accesskey="4"
+               tal:define="service request/service|nothing;
+                           value request/SearchableText|nothing;"
+               i18n:attributes="title title_search_site;"
+               tal:attributes="value python:service == 'cumulus' and value.decode('latin1').encode('utf8') or value;
+                               id view/search_input_id"
+               class="inputLabel" />
+
+        <input type="hidden" value="0" name="fuzzy" />
+        <input class="searchButton"
+               type="submit"
+               value="Search"
+               i18n:attributes="value label_search;" /><br/>
+        <input type="radio"
+                name="type_ressources"
+                id="datas"
+                checked="checked"
+                value="search_exist" /> Recherche des ressources
+        <input type="radio"
+                name="type_ressources"
+                id="infos"
+                value="search" /> Recherche des informations
+
+        <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+        </div>
+    </form>
+
+    <div id="portal-advanced-search"
+         class="hiddenStructure">
+        <a href="#"
+           tal:attributes="href string:${view/site_url}/search_form"
+           i18n:translate="label_advanced_search"
+           accesskey="5">
+            Advanced Search&hellip;
+        </a>
+    </div>
+
+</div>

@@ -1,0 +1,10 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace transform="http://exist-db.org/xquery/transform";
+
+let $doc_uri := "%(DOC_URL)s"
+let $doc := doc($doc_uri)
+let $dbpars := <parameters>%(XSL_PARAMS_DB)s</parameters>
+let $db_xsl := doc("%(DB_XSL)s")
+return
+    transform:transform($doc, $db_xsl, $dbpars)

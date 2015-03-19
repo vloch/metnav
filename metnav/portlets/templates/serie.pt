@@ -1,0 +1,51 @@
+﻿<dl class="portlet portletSerie"
+	id="portlet-serie"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plone">
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span><a href="#" tal:content="view/dossierTitre"
+            tal:attributes="href view/dossierUrl"
+           class="title">
+           Le titre du portlet
+        </a></span>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem" tal:content="view/dossierDesc">La phrase de description</dd>
+    <dd class="portletItem" tal:define="nbrElts view/dossierNbr | python:5;
+                                        Batch python:modules['Products.CMFPlone'].Batch;
+                                        DateTime python:modules['DateTime'].DateTime;
+                                        b_start python:request.get('b_start',0,1);
+                                        mn_props context/portal_properties/metnav_properties;
+                                        href_blank mn_props/HREF_BLANK | python:True;
+                                        results python:view.getSerieDuMoment()[:nbrElts]">
+        <tal:results tal:repeat="obj results"><div>
+                <span tal:repeat="img python:context.getRscIcon(str(obj['res/type'][0]))">
+                    <img src="" alt="" style="border: 0"
+                         tal:attributes="src string:${context/portal_url}/icones/${img};
+                                         alt img;
+                                         title python:str(img.split('.')[0]);"/>
+               </span>
+               <a href=""  tal:condition="python:href_blank==True" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]" target="_blank">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+               </a>
+               <a href=""  tal:condition="python:href_blank==False" tal:attributes="href python:obj['res/url'][0];
+                                title python:obj['res/description'][0]">
+                        <span tal:content="python:obj['res/title'][0]"></span>
+               </a> -
+               <span class="discreet" tal:content="python:here.toLocalizedTime(obj['res/pubdate'][0])"></span></div>
+        </tal:results>
+    
+    </dd>
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <a href=""
+           tal:attributes="href view/dossierUrl">
+          Voir aussi&hellip;
+        </a>
+        <span class="portletBottomRight"></span>
+    </dd>
+</dl>

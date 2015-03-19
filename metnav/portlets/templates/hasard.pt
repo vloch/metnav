@@ -1,0 +1,15 @@
+    <dl class="portlet" id="portlet-hasard">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:content="view/title"></span>
+            <span class="portletTopRight"></span>
+        </dt>
+
+        <tal:xquery tal:replace="structure view/hasard"/>
+
+        <!--dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd-->
+    </dl>

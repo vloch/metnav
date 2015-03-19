@@ -1,0 +1,21 @@
+<dl class="portlet"
+    id="portlet-topnews"
+    i18n:domain="plone">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span i18n:translate="box_topnews">À la une</span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem">
+      <span tal:content="view/top_description">Description</span>
+      <span tal:replace="structure view/top_news"> </span>
+    </dd>
+    <!--dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd-->
+
+</dl>
+

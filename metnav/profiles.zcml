@@ -1,0 +1,15 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="metnav">
+
+  <!-- profiles -->
+  <genericsetup:registerProfile
+      name="default"
+      title="metnav"
+      directory="profiles/default"
+      description='Extension profile for metnav.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

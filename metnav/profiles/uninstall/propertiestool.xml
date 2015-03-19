@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+ <object name="metnav_properties" meta_type="Plone Property Sheet" remove="True">
+  <property name="title">Properties for MetNav</property>
+  <property name="BATCH_LENGTH" type="int">15</property>
+  <property name="CLASSIFICATION_NAME" type="string">Thokavi</property>
+  <property name="CLASSIFICATION_URI"
+     type="string">/db/classification/Thokavi.xml</property>
+  <property name="COLLECTIONS" type="lines">
+   <element
+      value="/|Thokavi|/db/classification/Thokavi.xml|/db/planetterre/metadata"/>
+  </property>
+  <property name="COLLECTION_METADATA"
+     type="string">/db/csphysique/metadata</property>
+  <property name="CONDITION_BASE"
+     type="string">[not(lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur']) or lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur']/lom:date/lom:dateTime/text() &lt;= current-date()]</property>
+  <property name="DB_XSL"
+     type="string">xmldb:exist:///db/xsl/article.xsl</property>
+  <property name="DB_XSL_OPTS" type="lines">
+   <element value="html.cleanup=1"/>
+   <element value="make.valid.html=1"/>
+   <element value="css.decoration=1"/>
+   <element value="suppress.navigation=1"/>
+   <element value="table.frame.border.thickness=0"/>
+   <element value="l10n.gentext.language=fr"/>
+   <element value="l10n.gentext.default.language=fr"/>
+   <element value="generate.index=0"/>
+   <element value="generate.meta.abstract=0"/>
+   <element value="draft.mode=0"/>
+  </property>
+  <property name="DEFAULT_COLLATION"
+     type="string">declare default collation "?lang=fr-FR;strength=primary;decomposition=none";</property>
+  <property name="EXIST_DA" type="string">exist</property>
+  <property name="HEAD_SUP" type="text"></property>
+  <property name="IMG_WIDTH" type="int">200</property>
+  <property name="LD2DB_XSL"
+     type="string">xmldb:exist:///db/xsl/ld2db.xsl</property>
+  <property name="LIMIT_RELATED" type="int">10</property>
+  <property name="NB_ROW_TABLE" type="int">3</property>
+ <property name="OBJECTS" type="lines">
+   <element value="Tout="/>
+   <element value="Article=article"/>
+   <element value="Conf&amp;eacute;rence=conf&amp;eacute;rence"/>
+   <element value="Exercice=exercice"/>
+   <element value="Exp&amp;eacute;rience=exp&amp;eacute;rience"/>
+   <element value="Question du mois=question"/>
+   <element value="Dossier=dossier"/>
+   <element value="Simulation=simulation"/>
+  </property>
+   <property name="MEDIAS" type="lines">
+   <element value="Tout="/>
+   <element value="Image=image"/>
+   <element value="Son=son"/>
+   <element value="Texte=texte"/>
+   <element value="T&amp;eacute;l&amp;eacute;chargement=t&amp;eacute;l&amp;eacute;chargement"/>
+   <element value="Lien vers un autre site=lienVersUnAutreSite"/>
+  </property>
+  <property name="OBJET_SEMAINE"
+     type="string">[lom:educational/lom:learningResourceType &amp;= "figure"]</property>
+  <property name="SCORE_CONNEXE" type="int">15</property>
+  <property name="TEMPLATE_SEARCH" type="string">contains(%s, "%s")</property>
+  <property name="URL_DOC" type="string">/XML</property>
+  <property name="URL_DOC_HIDE" type="string">/voir_xml?url</property>
+  <property name="URL_IMG" type="string">/objets/img_sem/XML</property>
+  <property name="XPATH_SEARCH_EXPR" type="lines">
+   <element value="motcle=lom:general/lom:keyword"/>
+   <element value="titre=lom:general/lom:title"/>
+   <element value="description=lom:general/lom:description"/>
+   <element
+      value="auteur=lom:lifeCycle/lom:contribute[lom:role/lom:value=&quot;author&quot; or lom:role/lom:value=&quot;auteur&quot;]/entity"/>
+   <element value="niveau=lom:educational/lom:typicalAgeRange"/>
+   <element value="typederessource=lom:educational/lom:learningResourceType"/>
+   <element value="classification=lom:classification/lom:taxonPath"/>
+   <element value="couverture=lom:general/lom:coverage"/>
+   <element value="st=."/>
+   <element
+      value="date=lom:lifeCycle/lom:contribute[lom:role/lom:value=&quot;author&quot; or lom:role/lom:value=&quot;auteur&quot;]/lom:dateTime"/>
+  </property>
+  <property name="XSL_CLASS_LIST"
+     type="string">xmldb:exist:///db/xsl/class2list.xsl</property>
+  <property name="XSL_COUNT"
+     type="string">xmldb:exist:///db/xsl/lom2count.xsl</property>
+  <property name="XSL_DICT"
+     type="string">xmldb:exist:///db/xsl/lom2dict.xsl</property>
+  <property name="XSL_PAGE"
+     type="string">xmldb:exist:///db/xsl/lom2page.xsl</property>
+  <property name="XSL_PORTLET"
+     type="string">xmldb:exist:///db/xsl/lom2portlet.xsl</property>
+  <property name="XSL_RSS"
+     type="string">xmldb:exist:///db/xsl/lom2rss.xsl</property>
+  <property name="XSL_TABLE"
+     type="string">xmldb:exist:///db/xsl/lom2table.xsl</property>
+  <property name="XSL_YEAR_LIST"
+     type="string">xmldb:exist:///db/xsl/year2list.xsl</property>
+
+  <!-- portlet a la une -->
+  <property name="TOP_DOCUMENT"
+     type="string">/db/planetterre/metadata/LOM-reptiles-limite-kt.xml</property>
+    <property name="TOP_DESCRIPTION"
+     type="string">A saisir une description</property>
+      
+  <property name="ARCHIVE_MOIS"
+     type="boolean">False</property>
+  <property name="INIT_ANNEE" type="int">2002</property>
+ </object>
+ <object name="site_properties" meta_type="Plone Property Sheet" purge="True">
+   <property name="enable_livesearch" type="boolean">False</property>
+ </object>
+</object>

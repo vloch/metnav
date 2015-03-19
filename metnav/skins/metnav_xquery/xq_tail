@@ -1,0 +1,3 @@
+<res url="{document-uri(root($res))}">{$res}</res>, %(START)u%(NB_LIMIT)s)
+}</results>
+return transform:transform($results, "%(XSL)s", <parameters>%(XSL_PARAMS)s</parameters>)

@@ -1,0 +1,8 @@
+%(HEADER)s
+let $years := for $year in collection("%(COLLECTION)s")/lom:lom%(OBJECT_TYPE)s%(CONDITION_BASE)s%(CONDITION_SUP)s/lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur'][1]/lom:date/lom:dateTime
+              return year-from-date($year)
+for $year in distinct-values($years)
+let $res := <year>{$year}</year>
+    order by $year ascending
+return
+%(TAIL)s

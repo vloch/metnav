@@ -1,0 +1,287 @@
+<results>
+    <res url="/db/planetterre/metadata/LOMtraj-depress-index.xml">
+        <lom xmlns="http://ltsc.ieee.org/xsd/LOM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ltsc.ieee.org/xsd/LOM http://ltsc.ieee.org/xsd/lomv1.0/lom.xsd">
+            <metaMetadata>
+                <contribute>
+                    <role>
+                        <value>creator</value>
+                    </role>
+                    <entity>Formenti Yvan</entity>
+                    <date>
+                        <dateTime>2004-07-15</dateTime>
+                    </date>
+                </contribute>
+                <language>FR</language>
+            </metaMetadata>
+            <general>
+                <title>
+                    <string>Trajectoires de parcelles d'air au voisinage d'un centre dépressionnaire</string>
+                </title>
+                <identifier>
+                    <catalog>ENS-Lyon Planet-Terre</catalog>
+                    <entry>???</entry>
+                </identifier>
+                <language>fr</language>
+                <description>
+                    <string language="fr">Simulation des trajectoires de particules au voisinage d'une dépression</string>
+                </description>
+                <keyword>
+                    <string language="fr">Centre dépressionnaire</string>
+                </keyword>
+                <keyword>
+                    <string language="fr">Ecoulement</string>
+                </keyword>
+                <keyword>
+                    <string language="fr">Polluant</string>
+                </keyword>
+                <keyword>
+                    <string language="fr">Trajectoire</string>
+                </keyword>
+                <keyword>
+                    <string language="fr">Vitesse des vents</string>
+                </keyword>
+                <keyword>
+                    <string language="fr">Champs de vent</string>
+                </keyword>
+                <coverage>
+                    <string language="fr">??????????</string>
+                </coverage>
+                <aggregationLevel>
+                    <value>2</value>
+                </aggregationLevel>
+            </general>
+            <lifeCycle>
+                <status>
+                    <value>final</value>
+                </status>
+                <contribute>
+                    <role>
+                        <value>author</value>
+                    </role>
+                    <entity>Vincent Daniel</entity>
+                    <date>
+                        <description>
+                            <string>date de première version</string>
+                        </description>
+                        <dateTime>2000-06-22</dateTime>
+                    </date>
+                </contribute>
+                <contribute>
+                    <role>
+                        <value>editor</value>
+                    </role>
+                    <entity>Yvan Formenti</entity>
+                </contribute>
+                <contribute>
+                    <role>
+                        <value>editor</value>
+                    </role>
+                    <entity>Benoît Ugelli</entity>
+                </contribute>
+                <contribute>
+                    <role>
+                        <value>editor</value>
+                    </role>
+                    <entity>Florence Kalfoun</entity>
+                </contribute>
+                <contribute>
+                    <role>
+                        <value>publisher</value>
+                    </role>
+                    <entity>ENS Lyon</entity>
+                </contribute>
+            </lifeCycle>
+            <technical>
+                <size>255000</size>
+                <format>text/html</format>
+                <location>http://www.ens-lyon.fr/Planet-Terre/Infosciences/Climats/Dynam-atmos/Circulations/ModInter-TrajDepress/index.html</location>
+            </technical>
+            <educational>
+                <learningResourceType>
+                    <value>simulation</value>
+                </learningResourceType>
+                <intendedEndUserRole>
+                    <value>teacher</value>
+                </intendedEndUserRole>
+                <intendedEndUserRole>
+                    <value>learner</value>
+                </intendedEndUserRole>
+                <typicalAgeRange>
+                    <string>seconde</string>
+                    <string>tout public</string>
+                </typicalAgeRange>
+            </educational>
+            <rights>
+                <cost>
+                    <value>no</value>
+                </cost>
+                <copyrightAndOtherRestrictions>
+                    <value>yes</value>
+                </copyrightAndOtherRestrictions>
+                <description>
+                    <string>Copyright ENS Lyon</string>
+                </description>
+            </rights>
+            <relation>
+                <kind>
+                    <value>ispartof</value>
+                </kind>
+                <resource>
+                    <identifier>
+                        <entry>http://www...</entry>
+                    </identifier>
+                    <description>
+                        <string language="fr">description du fichier dont la ressource est une partie</string>
+                    </description>
+                </resource>
+            </relation>
+            <classification>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>LA TERRE : STRUCTURE, COMPOSITION, EVOLUTION</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>OUTILS ET METHODES D'ETUDE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Modélisation</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Modélisation numérique</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>LA TERRE : STRUCTURE, COMPOSITION, EVOLUTION</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>OUTILS ET METHODES D'ETUDE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Satellites</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>GEODYNAMIQUE EXTERNE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>ATMOSPHERE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Dynamique atmosphèrique</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>GEODYNAMIQUE EXTERNE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>ATMOSPHERE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Climats</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Mouvements de l'atmosphère</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>GEODYNAMIQUE EXTERNE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>ATMOSPHERE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Pollution de l'atmosphère</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>OUTILS ET METHODES D'ETUDE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Modélisation</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Modélisation numérique</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+                <taxonPath>
+                    <source>
+                        <string>Thokavi</string>
+                    </source>
+                    <taxon>
+                        <entry>
+                            <string>OUTILS ET METHODES D'ETUDE</string>
+                        </entry>
+                    </taxon>
+                    <taxon>
+                        <entry>
+                            <string>Satellites</string>
+                        </entry>
+                    </taxon>
+                </taxonPath>
+            </classification>
+        </lom>
+    </res>
+</results>

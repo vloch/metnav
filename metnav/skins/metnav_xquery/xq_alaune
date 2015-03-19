@@ -1,0 +1,18 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace db="http://docbook.org/ns/docbook";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+
+let $res := doc("%(url_meta)s")/lom:lom,
+    $url := normalize-space($res/%(resource_url)s),
+	$url_img := normalize-space($res//lomfrens:ensDocumentLabel/text()),
+    $description := normalize-space(replace($res/lom:general/lom:description/lom:string/text(), '&#xA;', ' ')),
+    $titre := normalize-space($res/lom:general/lom:title/lom:string/text())
+
+return
+    <center>
+        <a href="{$url}" title="{$description}">
+            <img src="{$url_img}" alt="{$url_img}" width="200"/>
+            <p class="portletImageTitle" style="font-size:90%%;font-weight:normal;">{$titre}</p>
+        </a>
+       </center>

@@ -1,0 +1,36 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+
+let $docbase := doc("%(COLLECTION)s%(META_URL)s")/lom:lom,
+    $taxonPaths := $docbase/lom:classification[1]/lom:taxonPath,
+    $keywords := $docbase//lom:keyword,
+    $nbtaxonPaths := count($taxonPaths),
+    $nbkeywords := count($keywords)
+
+for $res in collection('%(COLLECTION)s')/lom:lom[(contains(lom:classification[1]/lom:taxonPath,$taxonPaths)) and (contains(.//lom:keyword, $keywords))][lom:lifeCycle/lom:contribute[lom:role/lom:value='publisher']//lom:dateTime <= adjust-date-to-timezone(current-date(),())]
+let $date:= $res/lom:lifeCycle/lom:contribute[lom:role/lom:value='publisher']/lom:date/lom:dateTime/text(),
+    $rscType := string-join(distinct-values($res/lomfrens:ensData/lomfrens:ensDocumentType/lomfrens:value/text()), ", "),
+    $titre := $res/lom:general/lom:title/lom:string/text(),
+    $description := $res/lom:general/lom:description/lom:string/text(),
+    $thok := count(distinct-values($res/lom:classification[1]/lom:taxonPath[contains(., $taxonPaths)])),
+    $url   := normalize-space($res/%(resource_url)s),
+    $url_img := normalize-space($res//lomfrens:ensDocumentLabel/text()),
+    $keyw := count(distinct-values($res/lom:general/lom:keyword[contains(., $keywords)])),
+    $pcthok := $thok * 100 div count($res/lom:classification[1]/lom:taxonPath),
+    $pckeyw := $keyw * 100 div count($res/lom:general/lom:keyword),
+    $pcthokres := $thok * 100 div $nbtaxonPaths,
+    $pckeywres := $keyw * 100 div $nbkeywords,
+    $tri := round(($pcthok + $pckeyw + $pcthokres + $pckeywres) div 4)
+where $tri > %(SCORE_CONNEXE)s and document-uri(root($res)) != document-uri(root($docbase))
+order by $tri descending, $date descending, $titre ascending empty least
+return
+<res>
+  <title>{$titre}</title>
+  <description>{$description}</description>
+  <url>{$url}</url>
+  <urlLeadImage>{$url_img}</urlLeadImage>
+  <pubdate>{$date}</pubdate>
+  <type>{$rscType}</type>
+</res>
+

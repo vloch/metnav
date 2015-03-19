@@ -1,0 +1,19 @@
+<dl class="portlet" id="portlet-classification"
+        tal:define="discipline view/discipline;
+		    part request/part | python:discipline.split(':')[0];
+		    urn request/urn | python:discipline.split(':')[1];
+                    obj request/obj | python:'';
+                    media request/media | python:'';
+					termes request/termes|python:'';
+                    nomPage python:context.absolute_url().split('/')[-1];">
+    <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:attributes="title string:${view/data/title}" tal:content="view/title">Thèmes scientifiques</span>
+            <span class="portletTopRight"></span>
+    </dt>
+    <tal:block tal:condition="python: nomPage=='par_theme' or nomPage=='par_type_de_ressource' or nomPage=='themes_scientifiques'"><div tal:replace="structure python:view.classification(part, urn, termes, obj, media)"/>
+	</tal:block>
+	<tal:block tal:condition="python: nomPage!='par_theme' and nomPage!='par_type_de_ressource' and nomPage!='themes_scientifiques'">
+	 <div tal:replace="structure python:str(view.classification(part, urn, termes, obj, media).replace('/res_themes', ''))"></div>
+	 </tal:block>
+</dl>

@@ -1,0 +1,24 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+let $kws := distinct-values(doc("%(url)s")/lom:lom/lom:general/lom:keyword/lom:string/text()),
+    $loms := collection('%(meta_url)s')/lom:lom[.//lom:contribute[lom:role/lom:value='publisher']//lom:dateTime <= adjust-date-to-timezone(current-date(),())]
+
+return
+<div class="resourceKeywords">
+    <h3>Mots-cl&#233;s</h3>
+{
+    for $kw at $pos in $kws
+    return
+            if (count($loms[.//lom:keyword = $kw]) > 1)
+            then
+                <span class="existKeyword">
+                    <a href="%(portal_url)s/search_exist?SearchableText={replace(replace($kw, ' ', '%%20'), '-', '%%20')}&amp;fuzzy=0">{$kw}</a>
+                     <!--{if ($pos < count($kws)) then "," else ""}-->
+                </span>
+            else
+                <span class="unknownKeyword">{$kw}<!--{if ($pos < count($kws)) then "," else ""}--></span>
+
+}
+</div>
+

@@ -1,0 +1,24 @@
+xquery version "%(xquery_version)s";
+declare namespace lom="http://ltsc.ieee.org/xsd/LOM";
+declare namespace lomfrens="http://pratic.ens-lyon.fr/xsd/LOMFRENS";
+
+for $res in collection("%(meta_url)s")/lom:lom[(lom:relation/lom:kind/lom:value = "ispartof") and (lom:relation/lom:resource/lom:identifier/lom:entry = "%(url_dossier)s") and (lom:metaMetadata/lom:contribute/lom:date/lom:dateTime/text() <= adjust-date-to-timezone(current-date(),()))]
+let $rscType := string-join(distinct-values($res/lomfrens:ensData/lomfrens:ensDocumentType/lomfrens:value/text()), ", "),
+    $date_aff:= $res/lom:lifeCycle/lom:contribute[lom:role/lom:value='publisher'][1]/lom:date/lom:dateTime/text(),
+    $url   := normalize-space($res/%(resource_url)s),
+    $url_img := normalize-space($res//lomfrens:ensDocumentLabel/text()),
+    $authorName := string-join(distinct-values($res/lom:lifeCycle/lom:contribute[lom:role/lom:value = "author"]/lom:entity), "| "),
+    $titre := $res/lom:general/lom:title/lom:string/text(),
+    $description := $res/lom:general/lom:description/lom:string/text()
+
+order by $date_aff descending empty least
+return
+  <res>
+  <title>{$titre}</title>
+  <description>{$description}</description>
+  <url>{$url}</url>
+  <urlLeadImage>{$url_img}</urlLeadImage>
+  <pubdate>{$date_aff}</pubdate>
+  <type>{$rscType}</type>
+  <author>{$authorName}</author>
+  </res>

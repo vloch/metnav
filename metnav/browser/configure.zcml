@@ -1,0 +1,158 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="metnav">
+
+ <include package="plone.app.portlets"/>
+  <!-- The search box -->
+
+  <browser:page
+          for="*"
+          class=".header.headerview"
+          name="headerview"
+          permission="zope2.View"
+          allowed_attributes="get_meta_tags isXMLdoc"
+  />
+
+  <browser:page
+          for="*"
+          class=".themes.Themes"
+          name="res_themes"
+          template="templates/themes.pt"
+          permission="zope2.View"
+  />
+    <browser:page
+          for="*"
+          class=".themes.Themes"
+          name="resThemes"
+          allowed_attributes="themes"
+          permission="zope2.View"
+  />
+
+  <browser:page
+          for="*"
+          class=".search.Search"
+          name="adv_search_md"
+          template="templates/search.pt"
+          permission="zope2.View"
+  />
+
+  <!--browser:page
+          for="*"
+          class=".search_adv_md.search_adv_md"
+          name="res_search_md"
+          template="templates/res_search.pt"
+          permission="zope2.View"
+  /-->
+
+  <browser:page
+          for="*"
+          name="archives"
+          class=".res_archives.res_archives"
+          template="templates/res_archives.pt"
+          permission="zope2.View"
+  />
+
+  <browser:page
+          for="*"
+          class=".res_dossiers.res_dossiers"
+          name="res_dossiers"
+          template="templates/res_dossiers.pt"
+          permission="zope2.View"
+  />
+
+  <browser:page
+          for="*"
+          class=".res_news.res_news"
+          name="res_news"
+          template="templates/res_news.pt"
+          permission="zope2.View"
+  />
+
+  <!--browser:page
+          for="*"
+          class=".res_semaine.res_semaine"
+          name="res_semaine"
+          template="templates/res_semaine.pt"
+          permission="zope2.View"
+  /-->
+    <browser:page
+          for="*"
+          name="imagesSemaine"
+          class=".res_semaine.res_semaine"
+          allowed_attributes="getImagesDeLaSemaine"
+          permission="zope2.View"
+  />
+
+
+  <browser:page
+          for="*"
+          name="XML"
+          class=".XML.XML"
+          allowed_attributes="get_article_html"
+          permission="zope2.View"
+  />
+    <browser:page
+          for="*"
+          name="HTML"
+          class=".XML.HTML"
+          allowed_attributes="load_article_html"
+          permission="zope2.View"
+  />
+
+
+  <browser:page
+          for="*"
+          name="XMLld"
+          class=".XML.XMLld"
+          allowed_attributes="get_directArticle_html"
+          permission="zope2.View"
+  />
+
+   <browser:page
+          for="*"
+          name="XMLdb"
+          class=".XML.XMLdb"
+          allowed_attributes="get_directArticle_html"
+          permission="zope2.View"
+  />
+  
+  <browser:page
+          for="*"
+          name="XMLPDFCONVVIEW"
+          class=".XML.XMLPDFCONV"
+          allowed_attributes="get_pdf"
+          permission="zope2.View"
+  />
+
+  <browser:page
+          for="*"
+          name="SearchExist"
+          class=".search.SearchExist"
+          allowed_attributes="search getLockedIconTag"
+          permission="zope2.View"
+  />
+ <browser:page
+          for="*"
+          name="SearchRecents"
+          class=".res_published.res_published"
+          allowed_attributes="searchRecentXMLDocs"
+          permission="zope2.View"
+  />
+  <browser:page
+          for="*"
+          name="dossierThematique"
+          class=".res_dossierthematique.res_dossierthematique"
+          allowed_attributes="dossierThematique"
+          permission="zope2.View"
+  />
+  <!--browser:page
+          for="*"
+          name="SearchAdvanced"
+          class=".search.SearchAdvanced"
+          allowed_attributes="getObjets"
+          permission="zope2.View"
+  /-->
+
+</configure>

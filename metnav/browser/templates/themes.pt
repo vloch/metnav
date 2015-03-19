@@ -1,0 +1,173 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="metnav">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<div id="search-exist" metal:fill-slot="main"
+    tal:define="part request/part | python:'';
+                termes request/termes | python:'';
+                termes python:unicode(termes.strip()).encode('utf-8');
+                termes python:' '.join(termes.split());
+                object_type request/obj | python:'';
+                media request/media | python:'';
+                Batch python:modules['Products.CMFPlone'].Batch;
+                mn_props context/portal_properties/metnav_properties;
+                href_blank mn_props/HREF_BLANK | python:True;
+                b_start python:request.get('b_start',0);
+                b_length mn_props/BATCH_LENGTH | python:15;
+                rtheme context/@@resThemes;
+                se context/@@SearchExist;
+                critereTri request/criteresTri|python:'date';
+                ordreTri request/ordreTri|python:'descending';
+                sortBy python:'$'+critereTri+' '+ordreTri">
+    <div id="content-title">
+        <span class="titleLeft"></span>
+        <h1 class="documentFirstHeading">Recherche multi-critères</h1>
+        <span class="titleRight"></span>
+    </div>
+
+    <tal:block
+         tal:define="res python:rtheme.themes(part, object_type, media, termes, sort_order=sortBy, nb_limit=b_length, start=b_start);"
+         tal:condition="python:part.strip() not in ('', '//')">
+        <div class="criteresSearchTheme">
+            <h4>Critères de votre recherche</h4>
+            <form action=""  method="get" name="search"
+                    tal:define="part request/part | python:'';
+                                object_type request/obj | python:'';
+                                media request/media | python:'';"
+                    tal:attributes="action string:${context/absolute_url}/res_themes" >
+                <fieldset>
+                    <ul tal:define="taxonomie python:part.split('//')[1:len(part.split('//'))];
+                                    nbr python:len(taxonomie);">
+                        <li>Thème scientifique : <span tal:repeat="x taxonomie">
+                            <tal:chemin tal:define="nombre repeat/x/number; 
+                                                    i python: nbr-nombre"> 
+                                 <span tal:condition="python:i!=0">
+                                     <a tal:attributes="href python:context.absolute_url()+ '?part=' + '//'.join(part.strip().split('//')[:-i]) + '&amp;obj=' + object_type+ '&amp;media=' + media+'&termes='+termes+'&criteresTri='+critereTri+'&ordreTri='+ordreTri" tal:content="x"></a> > 
+                                 </span>
+
+                                 <span tal:condition="python:i==0" tal:content="structure string:<b>${x}</b>"></span>
+                            </tal:chemin></span>
+                        </li>
+                        <li>Type pédagogique : <span tal:condition="python:object_type==''" tal:content="structure python:'<b>Tout</b>'"></span>
+                                               <span tal:condition="python:object_type!=''"><a tal:attributes="href python:context.absolute_url()+ '?part=' + '//'.join(part.strip().split('//'))+ '&amp;obj=''&amp;media=' + media+'&termes='+termes+'&criteresTri='+critereTri+'&ordreTri='+ordreTri">Tout</a> > <span tal:content="structure python:'<b>'+object_type+'</b>'"></span></span>
+                        </li>
+                        <li>Type formel :  
+                            <span tal:condition="python:media!='lienVersUnAutreSite'">
+                                 <span tal:condition="python:media==''" tal:content="structure python:'<b>Tout</b>'"></span>
+                                 <span tal:condition="python:media!=''"><a tal:attributes="href python:context.absolute_url()+ '?part=' + '//'.join(part.strip().split('//'))+ '&amp;obj='+object_type+'&amp;media='+'&criteresTri='+critereTri+'&ordreTri='+ordreTri">Tout</a> > <span tal:content="structure python:'<b>'+media+'</b>'"></span></span>
+                            </span>
+                            <span tal:condition="python:media=='lienVersUnAutreSite'"><a tal:attributes="href python:context.absolute_url()+ '?part=' + '//'.join(part.strip().split('//'))+ '&amp;obj='+object_type+'&amp;media='+'&criteresTri='+critereTri+'&ordreTri='+ordreTri">Tout</a> > <strong><span>Lien vers un autre site</span></strong></span>
+                        </li>
+                        <li> Affiner votre recherche avec un ou des mot(s) clé(s) : <br/>
+                            <input name="termes" type="text" size="18" value="" title="Recherche des ressources" class="inputLabel"
+                                   tal:define="service request/service|nothing;
+                                               value request/termes|nothing;"
+                                   tal:attributes="value python:service == 'cumulus' and value.decode('latin1').encode('utf8') or value;"/>
+                            <input type="hidden" value="part" tal:attributes="value part" name="part" />
+                            <input type="hidden" value="objet" tal:attributes="value object_type" name="obj" />
+                            <input type="hidden" value="media" tal:attributes="value media" name="media" />
+                        </li>
+                        <li>Trier par :
+                            <select name="criteresTri">
+                                <option value="date" tal:attributes="selected string:'selected'" tal:condition="python:critereTri=='date'">Date</option>
+                                <option value="date" tal:condition="python:critereTri!='date'">Date</option>
+                                
+                                <option value="titre" tal:attributes="selected string:'selected'" tal:condition="python:critereTri=='titre'">Titre</option>
+                                <option value="titre" tal:condition="python:critereTri!='titre'">Titre</option>
+                            </select>
+                        </li>
+                        <li>Dans l'ordre :
+                            <select name="ordreTri">
+                                <option value="descending" tal:attributes="selected string:'selected'" tal:condition="python:ordreTri=='descending'">Décroissant</option>
+                                <option value="descending" tal:condition="python:ordreTri!='descending'">Décroissant</option>
+                                
+                                <option value="ascending" tal:attributes="selected string:'selected'" tal:condition="python:ordreTri=='ascending'">Croissant</option>
+                                <option value="ascending" tal:condition="python:ordreTri!='ascending'">Croissant</option>
+                            </select>
+                        </li>
+                   </ul>
+                    <div class="formControls">
+                        <input class="context"
+                               type="submit"
+                               name="submit"
+                               value="Search"
+                               i18n:domain="plone"
+                               i18n:attributes="value"/>
+                    </div>
+                </fieldset>
+             </form>
+        </div>
+     
+        <div tal:condition="not:res">
+            <p>
+                <strong i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</strong>
+            </p>
+        </div>
+
+        <div tal:condition="res" tal:define="nb_res python:len(res);
+                                             batch python:Batch(res, int(b_length), int(b_start), orphan=1)"> 
+                <div class="resultNumber">
+                     <h4>Liste des résultats</h4>
+                     <span i18n:domain="plone" i18n:translate="batch_x_items_matching_your_criteria"><span i18n:name="number" tal:content="structure string:<b>${nb_res}</b>">234</span> items matching your criteria.</span>
+                </div>
+
+                <!-- Navigation -->
+                <div metal:use-macro="here/batch_macros/macros/navigation" />
+                <div class="listeResults">
+                    <tal:results repeat="result batch">
+                        <tal:entry define="result_url python:result['res/url'][0];
+                               url string:$result_url;
+                               typesRs python:context.getRscIcon(str(result['res/type'][0]));">
+                               <dt>
+                                    <span tal:repeat="img typesRs">
+                                    <img src=""
+                                         tal:attributes="src string:${context/portal_url}/icones/${img};
+                                                 alt img;
+                                                 title python:img.split('.')[0]" />
+                                    </span>
+                                    <a href="#" tal:attributes="href url">
+                                        <ta:block tal:replace="structure python:se.getLockedIconTag(url=result['res/url'][0])" />
+                                    </a>&nbsp;
+                                                    
+                                    <a href="#" target="_blank" tal:condition="python:href_blank==True"
+                                    tal:attributes="href url;
+                                                    title python:result['res/description'][0]"
+                                    tal:content="python:result['res/title'][0]"></a>
+                                    
+                                    <a href="#" tal:condition="python:href_blank==False"
+                                    tal:attributes="href url;
+                                                    title python:result['res/description'][0]"
+                                    tal:content="python:result['res/title'][0]"></a>
+
+                                    <!--div tal:omit-tag="" tal:condition="python:result.has_key('res/publisher')" 
+                                         tal:content="python:' (' + context.getPublisher(result['res/publisher'][0]) + ')'">
+                                    </div-->
+                                    <span class="discreet">
+                                    par <span tal:repeat="auteur python:context.getAuteurs(result['res/author'][0])"
+                                              tal:content="python:auteur+', '"></span>
+                                    publi&eacute; le <span tal:condition="python:result.has_key('res/pubdate')"
+                                                           tal:replace="python:here.toLocalizedTime(result['res/pubdate'][0], long_format=0)">Modification Date</span>
+                                    </span>
+
+                            </dt>
+                            <dd tal:content="python:context.cropText(result.get('res/description', [''])[0], 500)"> Description </dd>
+                        </tal:entry>     
+                    </tal:results>
+                </div>
+                <!-- Navigation -->
+                <div metal:use-macro="here/batch_macros/macros/navigation" />
+        </div>
+    </tal:block>
+
+    <tal:block tal:omit-tag=""
+         tal:condition="python:part.strip() in ('', '//') and object_type.strip() == '' and media.strip() == ''">
+         <h1>Navigation par th&egrave;mes</h1>
+         <p>Description...</p>
+    </tal:block>
+</div>
+
+</html>

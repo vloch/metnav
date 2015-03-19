@@ -1,0 +1,16 @@
+    <dl class="portlet" id="portlet-semaine">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span i18n:translate="box_semaine">Ressource de la semaine</span>
+            <span class="portletTopRight"></span>
+        </dt>
+
+        <dd tal:replace="structure view/semaine">
+        </dd>
+
+        <!--dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd-->
+    </dl>

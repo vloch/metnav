@@ -1,0 +1,62 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+
+<body>
+
+<!-- The events box -->
+
+<div metal:define-macro="portlet"
+     tal:define="results python:here.portal_catalog.searchResults( portal_type_operator='or'
+                                                                 , portal_type=('Event', 'ATEvent')
+                                                                 , end={'query': here.ZopeTime(),
+                                                                        'range': 'min'}
+                                                                 , sort_on='start'
+                                                                 , review_state='published')[:8];
+                "
+     tal:condition="results">
+
+    <div class="portlet" id="portlet-events">
+
+        <h5 i18n:translate="box_events">Upcoming Events</h5>
+
+        <div class="portletBody">
+
+            <tal:block tal:repeat="obj results">
+        <div tal:define="oddrow repeat/obj" class="liens">
+
+                    <a href=""
+                       tal:attributes="href obj/getURL;
+                                       title obj/Description">
+                        <tal:block replace="structure here/event_icon.gif"/>
+                        <span tal:replace="python:test(obj.Title, obj.Title, obj.getId)"> Event </span>
+                        </a>
+                        <span class="discreet">( <tal:condition condition="obj/location">
+                            <tal:location content="obj/location">Location</tal:location>,
+                </tal:condition>
+                        <tal:date content="python:here.toLocalizedTime(obj.start)">July 7, 08:11</tal:date>
+                    )</span>
+
+                </div>
+
+            </tal:block>
+            <div class="portletContent">
+
+                <a href=""
+                   class="portletMore"
+                   tal:attributes="href string:${utool}/actualites/evenements/"
+                   i18n:translate="box_morelink"
+                   >
+                    More...
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

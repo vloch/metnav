@@ -1,0 +1,65 @@
+<dl class="portlet" id="portlet-objects-pedagogiques"
+        tal:define="nomPage python:context.absolute_url().split('/')[-1];
+		            part python:view.getPart().split(':')[0];
+					urn request/urn|python:view.getPart().split(':')[1];
+                    termes request/termes | python:'';
+                    objInUrl request/obj | python:'';
+                    critereTri request/criteresTri| python:'date';
+                    ordreTri request/ordreTri | python:'descending';">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:content="view/data/portlet_title">Types de ressources</span>
+            <span class="portletTopRight"></span>
+        </dt>
+        <dd tal:repeat="objet view/objetsPeda"
+            tal:attributes="class python: repeat['objet'].even() and 'portletItem even' or 'portletItem odd'">
+             <div tal:define="objLom python:objet.split('=')[1];
+                         objVu python:objet.split('=')[0];
+                         types python:objLom.strip()+', ';">
+                <div tal:condition="python: nomPage !='par_theme' and nomPage !='par_type_de_ressource' and nomPage !='themes_scientifiques'">
+                           <img src="" tal:attributes="src python:context.portal_url()+'/icones/'+context.getRscIcon(types=types)[0];
+                                                alt python:context.getRscIcon(types=types)[0];
+                                                title objVu;"/>
+                    <span tal:condition="python:objInUrl.strip() == objLom.strip()" class="selected">
+                    <a href="" tal:attributes="href string:${view/site_url}/res_themes?part=${part}&amp;urn=${urn}&amp;obj=${objLom}&amp;media=${view/getMedia}&amp;termes=${termes}&criteresTri=${critereTri}&ordreTri=${ordreTri};
+                                               class python:'selected' ;"
+                                tal:content="objVu">
+                                link
+                    </a>
+                    </span>
+                    <span tal:condition="python:objInUrl.strip() != objLom.strip()" class="plain">
+                    <a href="" tal:attributes="href string:${view/site_url}/res_themes?part=${part}&amp;urn=${urn}&amp;obj=${objLom}&amp;media=${view/getMedia}&amp;termes=${termes}&criteresTri=${critereTri}&ordreTri=${ordreTri};
+                                               class python:'plain' ;"
+                                tal:content="objVu">
+                                link
+                    </a>
+                    </span>
+                </div>
+                <div tal:condition="python: nomPage =='themes_scientifiques' or nomPage =='par_theme' or nomPage =='par_type_de_ressource'">
+                    <img src="" tal:attributes="src python:context.portal_url()+'/icones/'+context.getRscIcon(types=types)[0];
+                                                alt python:context.getRscIcon(types=types)[0];
+                                                title objVu;"/>
+                    <span tal:condition="python:objInUrl.strip() == objLom.strip()" class="selected">
+                    <a href="" tal:attributes="href string:${context/absolute_url}?part=${part}&amp;urn=${urn}&amp;obj=${objLom}&amp;media=${view/getMedia}&amp;termes=${termes}&criteresTri=${critereTri}&ordreTri=${ordreTri};
+                                               class python:'selected';"
+                                tal:content="objVu">
+                                link
+                    </a>
+                    </span>
+                    <span tal:condition="python:objInUrl.strip() != objLom.strip()" class="plain">
+                    <a href="" tal:attributes="href string:${context/absolute_url}?part=${part}&amp;urn=${urn}&amp;obj=${objLom}&amp;media=${view/getMedia}&amp;termes=${termes}&criteresTri=${critereTri}&ordreTri=${ordreTri};
+                                               class python:'plain';"
+                                tal:content="objVu">
+                                link
+                    </a>
+                    </span>
+                </div>
+        </div>
+        </dd>
+
+        <!--dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd-->
+    </dl>

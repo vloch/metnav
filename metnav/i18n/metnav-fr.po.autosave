@@ -1,0 +1,416 @@
+# spilloz <EMAIL@ADDRESS>, 2008.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: MetNav 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-04-22 06:18+0000\n"
+"PO-Revision-Date: 2008-04-22 08:46+0200\n"
+"Last-Translator: Sébastien Pilloz <Sebastien.Pilloz@ens-lyon.fr>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0"
+
+#. Default: "Une ressource"
+#: ../skins/metnav_portlets/portlet_hasard.pt
+msgid "box_hasard"
+msgstr "Une ressource"
+
+#. Default: "Ressource de la semaine"
+#: ../skins/metnav_portlets/portlet_semaine.pt
+msgid "box_semaine"
+msgstr "Ressource de la semaine"
+
+#. Default: "Vous pouvez configurer dans cette partie tout ce qui concerne les métadonnées utilisées pour indexer vos contenus."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_metadata"
+msgstr "Vous pouvez configurer dans cette partie tout ce qui concerne les métadonnées utilisées pour indexer vos contenus."
+
+#. Default: "Vous pouvez configurer dans cette partie les éléments généraux de MetNav"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_metnav_general"
+msgstr "Vous pouvez configurer dans cette partie les éléments généraux de MetNav."
+
+#. Default: "Vous permet de configurer les propriétés de navigation sur les métadonnées XML du site."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_prefs_metadata_nav"
+msgstr "Vous permet de configurer les propriétés de navigation sur les métadonnées."
+
+#. Default: "Vous pouvez configurer dans cette partie les URL où sont situées les différents templates d'affichage des données XML."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_templates_url"
+msgstr "Vous pouvez configurer dans cette partie les URL des différents templates d'affichage des données XML."
+
+#. Default: "Vous pouvez configurer dans cette partie les xquery utilisées pour la navigation sur les métadonnées afin de personnaliser les résultats renvoyés."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_xpath"
+msgstr "Vous pouvez configurer dans cette partie les requêtes utilisées pour la navigation sur les métadonnées afin de personnaliser les résultats renvoyés."
+
+#. Default: "Vous pouvez configurer dans cette partie les chemins vers les XSL ainsi que les options à passer pour la transformation de Docbook vers HTML."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "description_xsl"
+msgstr "Vous pouvez configurer dans cette partie les chemins des XSL d'affichage ainsi que les options à passer pour la transformation Docbook vers HTML"
+
+#. Default: "title"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "header_prefs_metnav"
+msgstr "Configuration de MetNav"
+
+#. Default: "Archives"
+#: ../skins/metnav_templates/res_archives.pt
+msgid "heading_archives"
+msgstr "Archives du site"
+
+#. Default: "Dossier"
+#: ../skins/metnav_templates/res_dossiers.pt
+msgid "heading_dossier"
+msgstr "Dossier"
+
+#. Default: "Nouveautés"
+#: ../skins/metnav_templates/res_news.pt
+msgid "heading_news"
+msgstr "Nouveau"
+
+#. Default: "Objects"
+#: ../skins/metnav_portlets/portlet_objects.pt
+msgid "heading_objects"
+msgstr ""
+
+#. Default: "Objets de la semaine"
+#: ../skins/metnav_templates/res_semaine.pt
+msgid "heading_semaine_index"
+msgstr ""
+
+#. Default: "Nombre d'éléments affichés par page lors des recherches (dans les nouvelles, archives, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_batch_length"
+msgstr ""
+
+#. Default: "Indiquez la configuration dans cet ordre: chemin portail|nom de classification|url de classification|collection des métadonnées. <br/> Le chemin / est <b>obligatoire</b>, il indique le chemin par défaut. Le premier chemin répondant au contexte actuel sera utilisé. Attention à l'ordre dans lequel vous les placez."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_collections"
+msgstr ""
+
+#. Default: "Un morceau valide de XQuery exprimant une condition qui sera appliquée à toutes les XQueries."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_condition_base"
+msgstr ""
+
+#. Default: "Chemin vers la XSL DocBook à utiliser pour les transformations. Préciser le type d'URI (file://, xmldb:exist://, etc.). Attention, s'il s'agit d'un type 'file://', c'est la localisation sur la machine qui héberge le serveur eXist qui doit être donnée."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_db_xsl"
+msgstr ""
+
+#. Default: "Options à passer à la XSL DocBook lors de la transformation (voir la documentation de la XSL). Une option par ligne, de la forme: param=value"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_db_xsl_opts"
+msgstr ""
+
+#. Default: "Formulation XQuery de la collation (langue et règles de langages) utilisée par défaut."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_default_collation"
+msgstr ""
+
+#. Default: "Identifiant du connecteur eXistDA à utiliser pour toutes les connexions à la base. Le connecteur doit se trouver dans portal_skins/custom ou à la racine du site Plone."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_exist_da"
+msgstr ""
+
+#. Default: "Options supplémentaires à placer dans le header des XQueries."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_head_sup"
+msgstr ""
+
+#. Default: "Largeur (en pixels) des images lors de l'affichage des métadonnées sous forme de table."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_img_width"
+msgstr ""
+
+#. Default: "Chemin vers la XSL LivreDoc vers DocBook à utiliser pour les transformations. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_ld2db_xsl"
+msgstr ""
+
+#. Default: "Nombre maximum de documents connexes affichés dans le portlet \"Voir aussi\"."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_limit_related"
+msgstr ""
+
+#. Default: "Nombre d'éléments affichés par ligne pour les \"objets de la semaine\"."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_nb_row_table"
+msgstr ""
+
+#. Default: "Correspondance des objets et de leurs noms affichés. De la forme nom affiché=nom dans le lom."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_objects"
+msgstr ""
+
+#. Default: "Un morceau valide de XQuery exprimant une façon de filtrer les types d'objets pour créer une ressource de la semaine."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_objet_semaine"
+msgstr ""
+
+#. Default: "Score minimum des documents connexes affichés dans le portlet \"Voir aussi\"."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_score_connexe"
+msgstr ""
+
+#. Default: "Expression de recherche. Deux %s sont acceptés: le premier est le noeud XML dans lequel chercher, le deuxième est l'expression à rechercher."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_template_search"
+msgstr ""
+
+#. Default: "Chemin et template pour les documents."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_url_doc"
+msgstr ""
+
+#. Default: "Chemin et template pour les documents qui ne sont pas accessibles aux anonymes."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_url_doc_hide"
+msgstr ""
+
+#. Default: "Chemin et template pour les images."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_url_img"
+msgstr ""
+
+#. Default: "Variables qui seront utilisées dans les recherches XPath avec leur correspondance XPath. De la forme variable=valeur. Une par ligne."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xpath_search_expr"
+msgstr ""
+
+#. Default: "Chemin vers les fonctions génériques XQuery livrées avec le produit (URL HTTP de préférence, ou bien dans la base eXist)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xq_fn_url"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme la classification en liste (portlet thèmes). Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_class_list"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui compte le nombre de résultats. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_count"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un dictionnaire Python. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_dict"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en une page Plone. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_page"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un portlet Plone. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_portlet"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un flux RSS. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_rss"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un tableau. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_table"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le compte des années des objets de la semaine en liste. Préciser le type d'URI (file://, xmldb:exist://, etc.)."
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "help_xsl_year_list"
+msgstr ""
+
+#. Default: "Nombre d'éléments par page"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_batch_length"
+msgstr ""
+
+#. Default: "Configuration des classifications et chemins"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_collections"
+msgstr ""
+
+#. Default: "Condition de base XQuery"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_condition_base"
+msgstr ""
+
+#. Default: "Chemin vers la XSL DocBook"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_db_xsl"
+msgstr ""
+
+#. Default: "Options à passer à la XSL DocBook"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_db_xsl_opts"
+msgstr ""
+
+#. Default: "Collation par défaut"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_default_collation"
+msgstr ""
+
+#. Default: "Identifiant du connecteur eXistDA à utiliser"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_exist_da"
+msgstr ""
+
+#. Default: "Options supplémentaires du header"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_head_sup"
+msgstr ""
+
+#. Default: "Nombre maximums de documents connexes"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_img_width"
+msgstr ""
+
+#. Default: "Chemin vers la XSL LivreDoc vers DocBook"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_ld2db_xsl"
+msgstr ""
+
+#. Default: "Nombre maximums de documents connexes"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_limit_related"
+msgstr ""
+
+#. Default: "Nombre d'éléments par ligne pour les \"objets de la semaine\""
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_nb_row_table"
+msgstr ""
+
+#. Default: "Objets"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_objects"
+msgstr ""
+
+#. Default: "Définition d'un type \"ressource de la semaine\""
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_objet_semaine"
+msgstr ""
+
+#. Default: "Score minimum de documents connexes"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_score_connexe"
+msgstr ""
+
+#. Default: "Expression de recherche par défaut"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_template_search"
+msgstr ""
+
+#. Default: "Chemin et template pour les documents"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_url_doc"
+msgstr ""
+
+#. Default: "Chemin et template pour les documents protégés"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_url_doc_hide"
+msgstr ""
+
+#. Default: "Chemin et template pour les images"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_url_img"
+msgstr ""
+
+#. Default: "Variables pour les recherches XPath"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xpath_search_expr"
+msgstr ""
+
+#. Default: "Chemin vers les fonctions génériques XQuery"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xq_fn_url"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme la classification en liste"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_class_list"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui compte le nombre de résultats"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_count"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un dictionnaire Python"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_dict"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en une page Plone"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_page"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un portlet Plone"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_portlet"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un flux RSS"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_rss"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le résultat en un tableau"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_table"
+msgstr ""
+
+#. Default: "Chemin vers la XSL qui transforme le compte des années des objets de la semaine en liste"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "label_xsl_year_list"
+msgstr ""
+
+#. Default: "Métadonnées"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_metadata"
+msgstr ""
+
+#. Default: "Configuration générale"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_metnav_general"
+msgstr ""
+
+#. Default: "Configuration de MetNav"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_prefs_metadata_nav"
+msgstr ""
+
+#. Default: "URL des templates"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_templates_url"
+msgstr ""
+
+#. Default: "Modèles XPath"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_xpath"
+msgstr ""
+
+#. Default: "XSL"
+#: ../skins/metnav_templates/prefs_manage_metadata_nav.cpt
+msgid "legend_xsl"
+msgstr ""
+
+#. Default: "Aller au niveau supérieur"
+#: ../skins/metnav_templates/res_themes.pt
+msgid "up_a_level"
+msgstr ""
+
+#. Default: "You must select a resource to view."
+#: ../skins/metnav_templates/XML.pt
+msgid "xml_select_res"
+msgstr ""
+

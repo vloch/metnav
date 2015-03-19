@@ -1,0 +1,6 @@
+%(HEADER)s
+for $res in collection("%(COLLECTION)s")/lom:lom[lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur']/lom:date/lom:dateTime/text() > "%(DATE_PUB_MIN)s"]%(CONDITION_BASE)s%(CONDITION_SUP)s
+let $date := $res/lom:metaMetadata/lom:contribute[lom:role='creator' or lom:role='createur'][1]/lom:date/lom:dateTime/text()
+order by $date descending empty least
+return
+%(TAIL)s

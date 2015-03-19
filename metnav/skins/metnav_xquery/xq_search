@@ -1,0 +1,7 @@
+%(HEADER)s
+for $res in collection("%(COLLECTION)s")/lom:lom%(SEARCH_TERMS)s%(CONDITION_BASE)s%(CONDITION_SUP)s
+let $date := $res/lom:lifeCycle/lom:contribute[1]/lom:date/lom:dateTime/text(),
+    $tri := %(SEARCH_SCORE)s 
+order by $tri descending, $date descending empty least
+return
+%(TAIL)s

@@ -1,0 +1,187 @@
+#LyX 1.4.4 created this file. For more info see http://www.lyx.org/
+\lyxformat 245
+\begin_document
+\begin_header
+\textclass article
+\language french
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize default
+\spacing single
+\papersize a4paper
+\use_geometry false
+\use_amsmath 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+MetNav
+\end_layout
+
+\begin_layout Abstract
+MetNav est un produit Zope/Plone qui apporte des ZPT, des scripts et des
+ XQuery à Plone afin de créer rapidement des sites web basés sur des métadonnées
+ au format LOM.
+ Ces métadonnées seront stockées dans une base de données XML eXist.
+\end_layout
+
+\begin_layout Part
+Technique
+\end_layout
+
+\begin_layout Section
+Pré-requis
+\end_layout
+
+\begin_layout Itemize
+Zope 2.8.x, 2.9.x
+\end_layout
+
+\begin_layout Itemize
+Plone 2.1.x, 2.5.x
+\end_layout
+
+\begin_layout Itemize
+eXistDA 0.8
+\end_layout
+
+\begin_layout Itemize
+eXist 1.1+
+\end_layout
+
+\begin_layout Section
+Installation
+\end_layout
+
+\begin_layout Standard
+On suppose que Zope, Plone, eXistDA et eXist sont déjà installés.
+ Se reporter à leurs documentations respectives afin de procéder préalablement
+ à leur installation.
+\end_layout
+
+\begin_layout Subsection
+Dans Zope
+\end_layout
+
+\begin_layout Standard
+Pour installer MetNav sur le serveur Zope, il suffit de décompresser l'archive
+ de MetNav dans le répertoire 
+\family typewriter
+{ZOPE-INSTANCE}/Products/
+\family default
+.
+ Un nouveau dossier MetNav sera créé dans ce répertoire.
+ Il faut ensuite redémarrer l'instance de Zope pour que MetNav soit pris
+ en compte.
+\end_layout
+
+\begin_layout Subsection
+Dans Plone
+\end_layout
+
+\begin_layout Standard
+Une fois l'installation faite dans Zope, il faut se connecter en manager
+ sur le site Plone, puis aller dans la 
+\begin_inset Quotes fld
+\end_inset
+
+Configuration du site
+\begin_inset Quotes frd
+\end_inset
+
+.
+ Cliquer sur le lien 
+\begin_inset Quotes fld
+\end_inset
+
+Ajout/Suppression de produits
+\begin_inset Quotes frd
+\end_inset
+
+ et ajouter le produit MetNav.
+ Si le produit n'apparaît pas, il a été mal installé dans Zope, et il faut
+ vérifier que tout s'est bien passé pendant l'étape précédente.
+\end_layout
+
+\begin_layout Section
+Configuration
+\end_layout
+
+\begin_layout Standard
+Tout d'abord, il faut créer un objet eXistDA dans un répertoire visible
+ de tout le serveur Plone (à la racine du site, ou mieux, dans le dossier
+ 
+\family typewriter
+portal_skins/custom
+\family default
+), et le configurer correctement pour se connecter à la base eXist.
+\end_layout
+
+\begin_layout Standard
+Ensuite, aller dans la partie 
+\begin_inset Quotes fld
+\end_inset
+
+Configuration du site
+\begin_inset Quotes frd
+\end_inset
+
+ de Plone et cliquer sur le lien 
+\begin_inset Quotes fld
+\end_inset
+
+Configuration de MetNav
+\begin_inset Quotes frd
+\end_inset
+
+.
+ Les 4 principales options sont :
+\end_layout
+
+\begin_layout Itemize
+Connecteur eXistDA : mettre ici l'id Zope du connecteur eXistDA
+\end_layout
+
+\begin_layout Itemize
+Collection : mettre ici le chemin complet de la collection de métadonnées
+ dans la base eXist
+\end_layout
+
+\begin_layout Itemize
+Nom de la classification : nom de la classification utilisée pour indexer
+ les objets du site
+\end_layout
+
+\begin_layout Itemize
+Chemin vers la XSL DocBook : indiquer ici le chemin pour accéder à la XSL
+ DocBook.
+ Attention, c'est une URI : 
+\family typewriter
+file:///usr/share/xml/docbook/stylesheet/nwalsh/html/docbook.xsl
+\family default
+ par exemple.
+ Si la XSL est sur le système de fichiers du serveur, il faut appliquer
+ le script 
+\family typewriter
+MetNav/xsl/make_db_xsl_usable_by_exist.py
+\family default
+ pour que les chemins relatifs des XSL soient transformés en chemins complets.
+\end_layout
+
+\end_body
+\end_document

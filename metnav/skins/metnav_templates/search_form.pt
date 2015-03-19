@@ -1,0 +1,223 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+<div metal:fill-slot="main">
+
+    <h1 i18n:translate="heading_advanced_search">Advanced search for content</h1>
+
+    <p i18n:translate="description_advanced_search">
+    This search form enables you to find content on the site by
+    specifying one or more search terms.
+    <br />
+    Remember that you can use the quick search anytime, it's normally
+    good enough, this search form is just if you want to be more specific.
+    </p>
+
+  	<form action="search_exist"
+          method="get"
+          name="search"
+          tal:define="DateTime python:modules['DateTime'].DateTime">
+         <input type="hidden" name="fuzzy" value="0" />
+
+        <fieldset>
+
+            <legend i18n:translate="legend_search_terms">Search Terms</legend>
+
+            <div class="field">
+                <label for="SearchableText" i18n:translate="label_search_text">Search Text</label>
+
+                <div class="formHelp">
+                Pour une recherche de texte simple, entrer les termes recherchés
+                dans ce champ, en les séparant par des espaces.</div>
+
+                <input type="text"
+                       id="SearchableText"
+                       name="SearchableText"
+                       size="50"
+                       tabindex=""
+                       tal:attributes="tabindex tabindex/next;"
+                       />
+            </div>
+
+            <div class="field">
+                <label for="Title" i18n:translate="label_title">Title</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont le titre contient les termes suivants :
+                </div>
+
+                <input type="text"
+                       id="Title"
+                       name="Title"
+                       size="50"
+                       tabindex=""
+                       tal:attributes="tabindex tabindex/next;"
+                       />
+            </div>
+
+            <div class="field">
+                <label for="Subject" i18n:translate="label_keywords">Keywords</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont les mots-clés sont les suivants :
+                </div>
+
+                
+                <input type="text" 
+                       name="Subject" 
+                       value="#" 
+                       tal:attributes="value request/Subject | nothing" 
+                       size="50"/>
+            </div>
+    
+            <div class="field">
+                <label for="Description" i18n:translate="label_description">Description</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont la description contient les termes suivants :
+                </div>
+    
+                <input type="text"
+                       id="Description"
+                       name="Description"
+                       size="50"
+                       tabindex=""
+                       tal:attributes="tabindex tabindex/next;"
+                       />
+            </div>
+    
+            <!--<div class="field">
+                <label for="created" i18n:translate="label_new_items_since">New items since</label>
+
+                <div class="formHelp" i18n:translate="help_search_new_items_since">
+                Return items added since you were last logged on, the last week, etc.
+                </div>
+    
+                <tal:datetime define="today python:DateTime().earliestTime()">
+                <select name="created:date"
+                        id="created"
+                        tabindex=""
+                        tal:attributes="tabindex tabindex/next;"
+                        tal:define="yesterday python:(today-1).Date();
+                                    lastweek python:(today-7).Date();
+                                    lastmonth python:(today-31).Date();
+                                    ever string:1970/02/01 00:00:00 GMT;">
+                    <option value="#"
+                            tal:condition="not: isAnon"
+                            tal:attributes="value python:member.getProperty('last_login_time')"
+                            i18n:translate="last_login">Last log-in</option>
+                    <option value="#" tal:attributes="value yesterday" i18n:translate="time_yesterday"> Yesterday </option>
+                    <option value="#" tal:attributes="value lastweek" i18n:translate="time_last_week"> Last week </option>
+                    <option value="#" tal:attributes="value lastmonth" i18n:translate="time_last_month"> Last month </option>
+                    <option value="#" tal:attributes="value ever" selected="selected" i18n:translate="time_ever"> Ever </option>
+                </select>
+                </tal:datetime>
+
+                <input type="hidden" name="created_usage" value="range:min" />
+            </div>-->
+
+            <div class="field" tal:define="meta_types context/@@SearchAdvanced/getObjets;">
+                <label i18n:translate="label_item_type">Item type</label>
+
+                <div class="formHelp" i18n:translate="help_search_item_type">
+                Return items of a specific type.
+                </div>
+    
+                <span class="optionsToggle" tal:define="tabindex tabindex/next">
+                    <input type="checkbox"
+                           onclick="javascript:toggleSelect(this, 'meta_type:list', true);"
+                           name="pt_toggle"
+                           value="#"
+                           id="pt_toggle"
+                           class="noborder"
+                           tabindex=""
+                           checked="checked"
+                           tal:attributes="tabindex tabindex;"/>
+                    <label for=""
+                           i18n:translate="label_toggle"
+                           tal:attributes="for string:pt_toggle"
+                           >Select All/None
+                    </label>
+                </span>
+                <br />
+                <tal:contenttypes repeat="type meta_types">
+                    <tal:tabindex define="tabindex tabindex/next">
+                    <input type="checkbox"
+                           name="meta_type:list"
+                           value="#"
+                           class="noborder"
+                           checked="checked"
+                           tabindex=""
+                           tal:attributes="value type/valeur;
+                                           tabindex tabindex;
+                                           id string:meta_type_${tabindex}"/>
+                    <label for=""
+                           i18n:translate=""
+                           tal:attributes="for string:meta_type_${tabindex}"
+                           tal:content="type/titre"
+                           />
+                    <br />
+                    </tal:tabindex>
+                </tal:contenttypes>
+            </div>
+    
+            
+    
+            <div class="field">
+                <label for="Creator" i18n:translate="label_author">Author</label>
+
+                <div class="formHelp" i18n:translate="help_search_author">
+                Return items created by a particular person.
+                </div>
+    
+                
+                    <input name="Creator"
+                           type="text"
+                           tabindex=""
+                           size="50"
+                           tal:attributes="tabindex tabindex/next;"
+                           />
+            </div>
+
+            <div class="field">
+                <label for="Contibuteur" i18n:translate="label_contributor">Contributeur</label>
+
+                <div class="formHelp" i18n:translate="help_search_contributor">
+                Rechercher les éléments pour lesquels une personne en particulier a contribué.
+                </div>
+    
+                
+                    <input name="Contributeur"
+                           type="text"
+                           tabindex=""
+                           size="50"
+                           tal:attributes="tabindex tabindex/next;"
+                           />
+            </div>
+    
+
+
+            <div class="formControls">
+                <input class="context"
+                       tabindex=""
+                       type="submit"
+                       name="submit"
+                       value="Search"
+                       i18n:attributes="value"
+                       tal:attributes="tabindex tabindex/next;"
+                       />
+            </div>
+
+        </fieldset>
+    
+    </form>
+
+</div>
+
+</html>
+

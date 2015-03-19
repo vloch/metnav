@@ -1,0 +1,59 @@
+<dl class="portlet" id="portlet-classification"
+        tal:define="part request/part | view/discipline;
+		    urn request/urn | python:'';
+		    urnL python:urn and urn.strip().split(':') or [];
+                    partl python:part and part.strip().split('//') or [];
+                    obj request/obj | python:'';
+                    media request/media | python:'';
+					termes request/termes|python:'';
+                    nomPage python:context.absolute_url().split('/')[-1];">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:attributes="title string:Classification ${view/getClassificationName}" tal:content="view/title">Thèmes scientifiques</span>
+            <span class="portletTopRight"></span>
+        </dt>
+
+
+        <tal:block tal:condition="python: nomPage=='par_theme' or nomPage=='par_type_de_ressource' or nomPage=='themes_scientifiques'">
+        <dd class="portletItem even"
+            tal:condition="python: len(partl) > 3">
+            <a href=""
+                tal:attributes="href python:context.absolute_url()+'?part=%s&amp;urn=%s&amp;termes=%s&amp;obj=%s&amp;media=%s' %('//'.join(partl[:-1]), ':'.join(urnL[:-1]), termes, obj, media)">
+                <img src="arrowUp.gif" alt="retour" />
+                <tal:block tal:condition="python:len(partl) > 3"
+                           tal:replace="python: partl[-3]">
+                    Aller au niveau supérieur
+                </tal:block>
+                <!--tal:block tal:condition="python:len(partl) &lt;= 3">
+                    Racine de la classification
+                </tal:block-->
+            </a>
+        </dd>
+        <dd tal:replace="structure python:str(view.classification(part, urn, termes, obj, media).replace('/res_themes', ''))"></dd>
+        </tal:block>
+
+        <tal:block tal:condition="python:nomPage!='par_theme' and nomPage !='par_type_de_ressource' and nomPage !='themes_scientifiques'">
+        <dd class="portletItem even"
+            tal:condition="python: len(partl) > 2">
+            <a href=""
+                tal:attributes="href python:view.site_url+'/res_themes?part=%s&amp;urn=%s&amp;termes=%s&amp;obj=%s&amp;media=%s' %('//'.join(partl[:-1]), ':'.join(urnL[:-1]), termes, obj, media)">
+                <img src="arrowUp.gif" alt="retour" />
+                <tal:block tal:condition="python:len(partl) > 2"
+                           tal:replace="python: partl[-2]">
+                    Aller au niveau supérieur
+                </tal:block>
+                <tal:block tal:condition="python:len(partl) &lt;= 2">
+                    Racine de la classification
+                </tal:block>
+            </a>
+        </dd>
+        <dd tal:replace="structure python:view.classification(part, termes, urn, obj, media)"></dd>
+        </tal:block>
+
+
+        <!--dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd-->
+    </dl>

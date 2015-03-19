@@ -1,0 +1,4 @@
+%(HEADER)s
+for $res in doc("%(CLASSIFICATION_URI)s")/vdex:vdex[vdex:vocabIdentifier = "%(CLASSIFICATION_NAME)s"]%(PARTS)s/vdex:term
+return
+%(TAIL)s

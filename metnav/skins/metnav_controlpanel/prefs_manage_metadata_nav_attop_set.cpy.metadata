@@ -1,0 +1,3 @@
+[actions]
+action.failure=traverse_to:string:prefs_manage_metadata_nav_attop
+action.success=traverse_to:string:prefs_manage_metadata_nav_attop

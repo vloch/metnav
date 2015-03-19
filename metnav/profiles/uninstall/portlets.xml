@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!-- This file is used to register new types of portlets. It can also
+     be used to register completely new column types. See CMFPlone's version
+     of this file for more information.
+  -->
+
+<portlets>
+  <!-- -*- extra stuff goes here -*- -->
+   <portlet
+     addview="portlets.TopNews"
+     title="MetNav - A la une"
+     remove="True"
+     description="A la une"
+   />
+
+   <portlet
+     addview="portlets.Hasard"
+     title="MetNav - Au hasard"
+     remove="True"
+     description="Au hasard"
+   />
+
+   <portlet
+     addview="portlets.Semaine"
+     title="MetNav - Semaine"
+     remove="True"
+     description="Semaine"
+   />
+
+   <portlet
+     addview="portlets.Classification"
+     title="MetNav - Classification"
+     remove="True"
+     description="Classification"
+   />
+    <portlet
+     addview="portlets.ClassificationMenu"
+     title="MetNav - ClassificationMenu"
+     remove="True"
+     description="Classification Menu"
+   />
+
+   <portlet
+     addview="portlets.Related"
+     title="MetNav - related"
+     remove="True"
+     description="Related"
+   />
+   <portlet
+     addview="portlets.Objects"
+     title="MetNav - Type de ressources"
+     remove="True"
+     description="Type de ressources"
+   />
+   <portlet
+     addview="portlets.ObjectsPeda"
+     title="MetNav - Types pedaglogiqes"
+     remove="True"
+     description="Types de ressources"
+   />
+   
+   <portlet
+     addview="portlets.ObjectsMedias"
+     title="MetNav - Types medias"
+     remove="True"
+     description="Types de ressources"
+   />
+   
+   <portlet
+     addview="portlets.Recent2"
+     title="MetNav - Nouveautes du site"
+     remove="True"
+     description="Nouveautes du site"
+   />
+   <portlet
+     addview="portlets.News2"
+     title="MetNav - News"
+     remove="True"
+     description="News"
+   />
+   <portlet
+     addview="portlets.Events2"
+     title="MetNav - Evenements"
+     remove="True"
+     description="Evenements"
+   />
+   
+   <portlet
+     addview="portlets.Serie"
+     title="MetNav - Serie du moment"
+     remove="True"
+     description="Serie du moment ou dossiers thematiques"
+   />
+   
+   <portlet
+     addview="portlets.LesPlusVues"
+     title="MetNav - Les plus vues"
+     remove="True"
+     description="Les ressources les plus vues"
+   />
+   
+    <portlet
+     addview="portlets.Search2"
+     title="MetNav - Recherche"
+     remove="True"
+     description="Recherche"
+   />
+   <portlet
+     addview="portlets.RelatedDossier"
+     title="MetNav - Related Dossier"
+     remove="True"
+     description="Related Dossier"
+   />
+   <portlet
+     addview="portlets.ImageSemaine"
+     title="MetNav - Image de la Semaine"
+	 remove="True"
+     description="Image de la semaine"
+   />
+</portlets>

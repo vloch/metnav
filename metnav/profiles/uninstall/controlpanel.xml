@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel" meta_type="Plone Control Panel Tool">
+
+ <configlet title="Metadata Naviguator Site Management Tool"
+    action_id="metadata_nav_management" appId="Metadata Nav."
+    category="Products" condition_expr=""
+    url_expr="string:$portal_url/prefs_manage_metadata_nav_global" visible="True" remove="True">
+  <permission>Manage portal</permission>
+ </configlet>
+
+ <configlet title="Metadata Navigator At Top Ressource"
+    action_id="metadata_nav_management_at_top" appId="Metadata Nav."
+    category="Products" condition_expr=""
+    url_expr="string:$portal_url/prefs_manage_metadata_nav_attop" visible="True" remove="True">
+  <permission>Manage portal</permission>
+ </configlet>
+
+</object>

@@ -1,0 +1,10 @@
+# use glob syntax.
+syntax: glob
+
+*.pyc
+*.pyo
+setup.cfg
+*.egg
+*.egg-info
+*.mo
+

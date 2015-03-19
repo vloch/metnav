@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="metnav">
+
+    <metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+    <div id="search-exist" metal:fill-slot="main"
+        tal:define="DateTime python:modules['DateTime'].DateTime;
+                    Batch python:modules['Products.CMFPlone'].Batch;
+                    portal context/@@plone_portal_state/portal;
+                    mn_props portal/portal_properties/metnav_properties;
+                    href_blank mn_props/HREF_BLANK | python:True;
+                    b_start python:request.get('b_start',0);
+                    b_length mn_props/BATCH_LENGTH | python:20;
+                    annee request/date_annee | python:str(DateTime().year());
+                    mois request/archives-mois | python:'';
+                    date_archives python:annee+'-'+mois;
+                    res python:view.archives(date_archives);
+                    nb_res python:len(res) or 10;
+                    batch python:Batch(res, int(b_length), int(b_start), orphan=1)">
+
+        <h1 i18n:translate="heading_archives" name="haut">Archives</h1>
+        <span tal:replace="structure context/getArchives">les archives</span>
+        <div tal:condition="not:res">
+            <p>
+                <strong i18n:domain="plone" i18n:translate="description_no_results_found">No results were found.</strong>
+            </p>
+        </div>
+
+        <div tal:condition="res">
+            <div tal:omit-tag=""><h4>Liste des résultats. </h4>
+                <span i18n:domain="plone" i18n:translate="batch_x_items_matching_your_criteria">
+                <span i18n:name="number" tal:content="structure string:<b>${nb_res}</b>">234</span> items matching your criteria.</span>
+            </div>
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+            <tal:results tal:repeat="result batch">
+            <dl>
+                <dt>
+                    <span tal:repeat="img python:context.getRscIcon(str(result['res/type'][0]))">
+                        <img src="" alt="" style="border: 0"
+                              tal:attributes="src string:${context/portal_url}/icones/${img};
+                                              alt img;
+                                              title python:str(img.split('.')[0]);"/>
+                    </span>
+                    <span tal:condition="python:result['res/url'][0].find('/profs/')!=-1 or result['res/url'][0].find('/article-pro/')!=-1">
+                        <img src="" alt="accès restreint" tal:attributes="src string:${context/portal_url}/icones/lock_icon.gif"/>
+                    </span>
+                    <a href="/view"
+                       tal:content="python:result['res/title'][0]"
+                       tal:condition="python:href_blank==True"
+                       tal:attributes="href python:result['res/url'][0]" target="_blank">Title </a>
+                    <a href="/view"
+                       tal:content="python:result['res/title'][0]"
+                       tal:condition="python:href_blank==False"
+                       tal:attributes="href python:result['res/url'][0]">Title </a>
+
+                    <span class="discreet">
+                        par <span tal:repeat="auteur python:context.getAuteurs(result['res/author'][0])" tal:replace="string:${auteur}, "/>
+                        publié le <span tal:replace="python:here.toLocalizedTime(result['res/pubdate'][0])"/>
+                    </span>
+                </dt>
+                <dd tal:content="structure python:context.cropText(result['res/description'][0], 500) or nothing">
+                                        Description
+                </dd>
+       </dl>
+       </tal:results>          
+       <div metal:use-macro="here/batch_macros/macros/navigation" />
+       <p class='goToTop'>Sélectionner une autre année et/ou un autre mois.</p>
+    </div>    
+</div>
+
+</html>

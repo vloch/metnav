@@ -1,0 +1,263 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:head fill-slot="top_slot"
+            tal:define="dummy python:request.set('disable_border',1)" />
+
+<div metal:fill-slot="main">
+<!--span tal:define="SearchAdvanced context/@@SearchAdvanced"></span-->
+    <h1 i18n:translate="heading_advanced_search">Advanced search for content</h1>
+
+    <p i18n:translate="description_advanced_search">
+    This search form enables you to find content on the site by
+    specifying one or more search terms.
+    <br />
+    Remember that you can use the quick search anytime, it's normally
+    good enough, this search form is just if you want to be more specific.
+    </p>
+
+  	<form action="search_exist"
+          method="get"
+          name="search"
+          tal:define="DateTime python:modules['DateTime'].DateTime;
+                      getToolByName python:modules['Products.CMFCore.utils'].getToolByName;
+                      mn_props python:getToolByName(context, 'portal_properties').metnav_properties;
+                      objPeda python:mn_props.getProperty('OBJECTS')[1:];
+                      objMedia python:mn_props.getProperty('MEDIAS')[1:];">
+
+        <fieldset>
+
+            <!--legend i18n:translate="legend_search_terms">Search Terms</legend-->
+
+            <div class="field">
+                <label for="SearchableText" i18n:translate="label_search_text">Search Text</label>
+
+                <div class="formHelp">
+                Pour une recherche de texte simple, entrez les termes recherchés
+                dans ce champ, en les séparant par des espaces. Les mots indiqués seront recherchés à la fois dans le titre, la description et le contenu des ressources.
+</div>
+
+                <input type="text"
+                       id="SearchableText"
+                       name="SearchableText"
+                       size="50"
+                       />
+            </div>
+
+<!------Recherche d'un mot dans le titre------------------------------------------------------------------->            
+            <div class="field">
+                <label for="Title" i18n:translate="label_title">Title</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont le titre contient les termes suivants :
+                </div>
+
+                <input type="text"
+                       id="Title"
+                       name="Title"
+                       size="50"
+                       />
+            </div>
+
+<!------A développer comme google------------------------------------------------------------------->
+            <!--div class="field">
+                <label for="Subject" i18n:translate="label_keywords">Keywords</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont les mots-clés sont les suivants :
+                </div>
+
+                
+                <input type="text" 
+                       name="Subject" 
+                       value="#" 
+                       tal:attributes="value request/Subject | nothing" 
+                       size="50"/>
+            </div-->
+            
+<!------Recherche d'un mot dans la description------------------------------------------------------------------->
+            <div class="field">
+                <label for="Description" i18n:translate="label_description">Description</label>
+
+                <div class="formHelp">
+                Recherche les ressources dont la description contient les termes suivants :
+                </div>
+    
+                <input type="text"
+                       id="Description"
+                       name="Description"
+                       size="50"
+                       />
+            </div>
+            
+<!------Recherche par date à développer plus tard------------------------------------------------------------------->
+            <div class="field">
+                <label for="created">Date</label>
+
+                <div class="formHelp">
+                Recherche les ressources publiées avant, en ou depuis une année saisie, 2010 par exemple.
+                </div>
+   <input type="text"
+                       id="parDate"
+                       name="parDate"
+                       size="20"
+                       value=""
+                       tal:attributes="value request/parDate | nothing"
+                       onkeydown="javascript:afficherChoix();"
+                        /> <br/>
+<div id="choixCriteres">
+<input type="radio" name="criterePourDate" checked value="0" /> Durant l'année saisie.<br/>
+<input type="radio" name="criterePourDate" value="1" /> Avant et durant l'année saisie.<br/>
+<input type="radio" name="criterePourDate" value="2" />  Depuis l'année saisie.<br/>
+</div>
+                <!--tal:datetime define="today python:DateTime().earliestTime()">
+                <select name="created:date"
+                        id="created"
+                        tal:define="yesterday python:(today-1).Date();
+                                    lastweek python:(today-7).Date();
+                                    lastmonth python:(today-31).Date();
+                                    ever string:1970/02/01 00:00:00 GMT;">
+                    <option value="#"
+                            tal:condition="not: isAnon"
+                            tal:attributes="value python:member.getProperty('last_login_time')"
+                            i18n:translate="last_login">Last log-in</option>
+                    <option value="#" tal:attributes="value yesterday" i18n:translate="time_yesterday"> Yesterday </option>
+                    <option value="#" tal:attributes="value lastweek" i18n:translate="time_last_week"> Last week </option>
+                    <option value="#" tal:attributes="value lastmonth" i18n:translate="time_last_month"> Last month </option>
+                    <option value="#" tal:attributes="value ever" selected="selected" i18n:translate="time_ever"> Ever </option>
+                </select>
+                </tal:datetime-->
+
+                <input type="hidden" name="created_usage" value="range:min" />
+            </div>
+            
+<!------Recherche par types de ressources - recherche étendue ------------------------------------------------------------------->
+            <div class="field">
+                <label i18n:translate="label_item_type">Item type</label>
+
+                <div class="formHelp" i18n:translate="help_search_item_type">
+                Return items of a specific type.
+                </div>
+    
+                <span class="optionsToggle">
+                    <input type="checkbox"
+                           onclick="javascript:toggleSelect(this, 'meta_type:list', true);"
+                           name="pt_toggle"
+                           value="#"
+                           id="pt_toggle"
+                           class="noborder"
+                           checked="checked"/>
+                    <label for=""
+                           i18n:translate="label_toggle"
+                           tal:attributes="for string:pt_toggle"
+                           >Select All/None
+                    </label>
+                </span>
+                <br />
+                <tal:contenttypes repeat="typePeda objPeda">
+                <div tal:define="TypePedaLom python:typePeda.split('=')[1];
+                     TypePedaVu python:typePeda.split('=')[0];">
+                        <tal:tabindex define="tabindex repeat/typePeda/index">
+                        <input type="checkbox"
+                               name="meta_type:list"
+                               value="#"
+                               class="noborder"
+                               checked="checked"
+                               tal:attributes="value TypePedaLom;
+                                               id string:meta_type_peda${tabindex}"/>
+                        <label for=""
+                               i18n:translate=""
+                               tal:attributes="for string:meta_type_peda${tabindex}"
+                               tal:content="TypePedaVu"
+                               />
+                        <br />
+                        </tal:tabindex>
+                    </div>
+                </tal:contenttypes>
+
+                <tal:contenttypes repeat="typeMedia objMedia">
+                    <div tal:define="typeMediaLom python:typeMedia.split('=')[1];
+                     typeMediaVu python:typeMedia.split('=')[0];">
+                        <tal:tabindex define="tabindex repeat/typeMedia/index">
+                        <input type="checkbox"
+                               name="meta_type:list"
+                               value="#"
+                               class="noborder"
+                               checked="checked"
+ 
+                               tal:attributes="value typeMediaLom;
+                                               id string:meta_type_media${tabindex}"/>
+                        <label for=""
+                               i18n:translate=""
+                               tal:attributes="for string:meta_type_media${tabindex}"
+                               tal:content="typeMediaVu"
+                               />
+                        <br />
+                        </tal:tabindex>
+                    </div>
+                </tal:contenttypes>
+            </div>
+    
+ <!------Recherche par nom d'auteur------------------------------------------------------------------->           
+    
+            <div class="field">
+                <label for="Creator" i18n:translate="label_author">Author</label>
+
+                <div class="formHelp" i18n:translate="help_search_author">
+                Return items created by a particular person.
+                </div>
+                    <input name="Creator"
+                           type="text"
+                           size="50"/>
+            </div>
+	    
+<!------Recherche par nom de contributeur------------------------------------------------------------------->
+            <div class="field">
+                <label for="Contibuteur" i18n:translate="label_contributor">Contributeur</label>
+
+                <div class="formHelp" i18n:translate="help_search_contributor">
+                Recherche les éléments pour lesquels une personne en particulier a contribué.
+                </div>
+                    <input name="Contributeur"
+                           type="text"
+                           size="50" />
+            </div>
+    
+
+
+            <div class="formControls">
+                <input class="context"
+                       type="submit"
+                       name="submit"
+                       value="Search"
+                       i18n:attributes="value"/>
+            </div>
+
+        </fieldset>
+    
+    </form>
+
+</div>
+
+</html>
+<script type="text/javascript">
+var block=document.getElementById('choixCriteres');
+block.style.display='none';
+function afficherChoix(){
+       var block=document.getElementById('choixCriteres');
+       var btnsRadio=document.getElementsByName('criterePourDate');
+       var anneeSaisie=document.getElementById('parDate').value;
+       //alert(anneeSaisie);     
+   if (anneeSaisie!=''){
+        block.style.display='block';
+        /*btnsRadio[0].value='='+anneeSasie;
+        btnsRadio[1].value='<='+anneeSasie;
+        btnsRadio[2].value='>='+anneeSasie;*/
+     }
+    else {
+        block.style.display='none';
+    }
+}
+</script>

@@ -1,0 +1,20 @@
+xquery version "%(xquery_version)s";
+declare namespace vdex="http://www.imsglobal.org/xsd/imsvdex_v1p0";
+let $vdex:=doc("%(CLASSIFICATION_URI)s")/vdex:vdex,
+    $discipline:=$vdex/vdex:term/vdex:caption/vdex:langstring/text(),
+    $didsciplineId:=substring-after($vdex/vdex:term/vdex:termIdentifier/text(), "URN:")
+return
+   <div>
+    <dd class="parent"><a  href="%(site_url)s/par_theme?part=//{$discipline}&amp;urn={$didsciplineId}&amp;obj=%(objet)s&amp;media=%(media)s&amp;termes=%(termes)s">{$discipline}</a></dd>
+    <dd class="portletItem"><ul class="{if ($didsciplineId='%(urn)s') then 'portletItemDetails' else 'freres'}">{for $res in $vdex/vdex:term/vdex:term
+            return
+               if($res/vdex:term)
+                  then
+                      <li><a class="{if(substring-after($res/vdex:termIdentifier/text(),"URN:")='%(urn)s') then 'frere currentItem' else 'frere'}" href="%(site_url)s/par_theme?part=//{$discipline}//{$res/vdex:caption/vdex:langstring/text()}&amp;urn={substring-after($res/vdex:termIdentifier/text(),"URN:")}&amp;obj=%(objet)s&amp;media=%(media)s&amp;termes=%(termes)s">{$res/vdex:caption/vdex:langstring/text()}</a><ul class="{if (starts-with('%(urn)s',substring-after($res/vdex:termIdentifier/text(),"URN:"))) then 'showEnfants portletItemDetails' else 'hideEnfants portletItemDetails'}">
+                      {for $enfant in $res/vdex:term
+                           return <li><a class="{if(substring-after($enfant/vdex:termIdentifier/text(),"URN:")='%(urn)s') then 'currentItem' else 'enfant'}" href="%(site_url)s/par_theme?part=//{$discipline}//{$res/vdex:caption/vdex:langstring/text()}//{$enfant/vdex:caption/vdex:langstring/text()}&amp;urn={substring-after($enfant/vdex:termIdentifier/text(), "URN:")}&amp;obj=%(objet)s&amp;media=%(media)s&amp;termes=%(termes)s">{$enfant/vdex:caption/vdex:langstring/text()}</a></li>
+                       }</ul></li>
+                  else
+                      <li><a class="frere" href="%(site_url)s/par_theme?part=//{$discipline}//{$res/vdex:caption/vdex:langstring/text()}&amp;urn={substring-after($res/vdex:termIdentifier/text(), "URN:")}&amp;obj=%(objet)s&amp;media=%(media)s&amp;termes=%(termes)s">{$res/vdex:caption/vdex:langstring/text()}</a></li>
+         }</ul></dd>
+   </div>

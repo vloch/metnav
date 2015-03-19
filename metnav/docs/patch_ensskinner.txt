@@ -1,0 +1,12 @@
+Patch ENSSkinner
+----------------
+
+Le fichier patch livré avec MetNav sert à modifier le fichier config.py livré avec ENSSkinner.
+
+Une fois ce patch appliqué sur $ZOPE_INSTANCE/Products/ENSSkinner/config.py, les portlets livrés avec MetNav seront utilisables par l'interface de ENSSkinner. Ils pourront être enlevés et ajoutés comme les portlets standard de Plone.
+
+Utilisation
+-----------
+
+patch $ZOPE_INSTANCE/Products/ENSSkinner/config.py ensskinner_config.patch
+

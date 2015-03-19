@@ -1,0 +1,53 @@
+﻿﻿   <dl class="portlet" id="portlet-objects"
+        tal:define="obj request/obj | python:'';
+                   nomPage python:context.absolute_url().split('/')[-1];">
+
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <span tal:content="view/data/portlet_title">Types de ressources</span>
+            <span class="portletTopRight"></span>
+        </dt>
+
+        <dd tal:repeat="category view/data/categories"
+            tal:attributes="class python: repeat['category'].even() and 'portletItem even' or 'portletItem odd'">
+
+            <div tal:condition="python:category !='tout'">
+                <div tal:condition="python: nomPage !='par_theme' and nomPage !='par_type_de_ressource'">
+                    <a href="" tal:attributes="href string:${view/site_url}/res_themes?obj=${category}&amp;part=${view/getPart};
+                                               class python: 'selected' or 'plain';"
+                                tal:content="category">
+                                link
+                    </a>
+                </div>
+                <div tal:condition="python: nomPage =='par_theme' or nomPage =='par_type_de_ressource'">
+                    <a href="" tal:attributes="href string:${context/absolute_url}?obj=${category}&amp;part=${view/getPart};
+                                               class python: 'selected' or 'plain';"
+                                tal:content="category">
+                                link
+                    </a>
+                </div>
+            </div>
+
+            <div tal:condition="python:category =='tout'">
+                <div tal:condition="python: nomPage !='par_theme' and nomPage !='par_type_de_ressource'">
+                    <a href="" tal:attributes="href string:${view/site_url}/res_themes?obj=&amp;part=${view/getPart};
+                                               class python: 'selected' or 'plain';"
+                                tal:content="category">
+                                link
+                    </a>
+                </div>
+                <div tal:condition="python: nomPage =='par_theme' or nomPage =='par_type_de_ressource'">
+                    <a href="" tal:attributes="href string:${context/absolute_url}?obj=&amp;part=${view/getPart};
+                                class python: 'selected' or 'plain';"
+                                tal:content="category">
+                                link
+                    </a>
+                </div>
+            </div>
+        </dd>
+
+        <dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd>
+    </dl>
